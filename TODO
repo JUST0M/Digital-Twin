@@ -1,0 +1,13 @@
+- Incorporate the data we have been given somehow:
+    - someone needs to properly get their head around the data
+    - we need to choose exactly which output(s) our visualisation depicts
+    - need to figure out how to depict it (e.g. change colour of brain)
+
+- Add sliders/input boxes to the stickman page:
+    - figure out how the paper calculates the score thing (think it is just some simple formula but not sure)
+    - use this formula to calculate a new score based on slider/input changes (rather than any clever ML for now)
+    - change the output (e.g. colour of brain) based on new score
+
+- Implement headClicked() in body_canvas.js so it actually does something useful
+
+- Add detail to the diagram to make it more realistic/interesting
