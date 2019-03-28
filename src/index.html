@@ -1,23 +1,57 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en"; style="height:100%">
 <head>
   <meta charset="UTF-8">
   <title>Canvas Resize</title>
-  <style type="text/css">
-    canvas {
-      border: 1px solid black;
-      background: white
-    }
-    body {
-      margin: 0;
-    }
-  </style>
+
+  <link rel="stylesheet" type="text/css" href="main.css">
 </head>
 <body>
-  <canvas></canvas>
-  <script src="body_canvas.js"></script>
-  <div class="slidecontainer">
-  <input type="range" min="1" max="100" value="50" class="slider" id="myRange">
+  <div style = "height: 100%; line-height: 2em">
+    <table>
+      <tr>
+        <th rowspan="8" style="width:50%"><canvas></canvas><script src="body_canvas.js"></script></th>
+        <td>slider 1: <span id="o0"></span><br/>
+          <input type="range" min="1" max="100" value="50" class="slider" id="s0">
+        </td>
+      </tr>
+      <tr>
+        <td>slider 2: <span id="o1"></span><br/>
+          <input type="range" min="1" max="100" value="50" class="slider" id="s1">
+        </td>
+      </tr>
+      <tr>
+        <td>slider 3: <span id="o2"></span><br/>
+          <input type="range" min="1" max="100" value="50" class="slider" id="s2">
+        </td>
+      </tr>
+      <tr>
+        <td>slider 4: <span id="o3"></span><br/>
+          <input type="range" min="1" max="100" value="50" class="slider" id="s3">
+        </td>
+      </tr>
+      <tr>
+        <td>slider 5: <span id="o4"></span><br/>
+          <input type="range" min="1" max="100" value="50" class="slider" id="s4">
+        </td>
+      </tr>
+      <tr>
+        <td>slider 6: <span id="o5"></span><br/>
+          <input type="range" min="1" max="100" value="50" class="slider" id="s5">
+        </td>
+      </tr>
+      <tr>
+        <td>slider 7: <span id="o6"></span><br/>
+          <input type="range" min="1" max="100" value="50" class="slider" id="s6">
+        </td>
+      </tr>
+      <tr>
+        <td>slider 8: <span id="o7"></span><br/>
+          <input type="range" min="1" max="100" value="50" class="slider" id="s7">
+        </td>
+      </tr>
+    </table>
   </div>
+  <script src="sliders.js"></script>
 </body>
 </html>
