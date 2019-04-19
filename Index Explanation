@@ -1,0 +1,42 @@
+Ok so I think I have come to a reasonable conclusion on how we can make the data and index work in a sensible way, and I have tweaked the code a little bit to help us make sense of it. Will add some more tomorrow. 
+
+Basically, there are eight components in the index, comprised of ten measurables:
+(1a) Weekly Physical Vigorous Exercise
+(1b) Peak VO2 
+(2) Weekly Alcohol Intake
+(3) Whether you have been a 'smoker' in the past six months
+(4a/b) Ambulatory Systolic and Diastolic Blood Pressure
+(5) Total Cholesterol Level
+(6) Blood Glucose Level
+(7) Post-Exercise Diastolic Blood Pressure
+(8) Body Mass Index
+
+You get a point based on whether you meet the threshold for each category. 
+For 1a/b it's whether you meet either of the criteria.
+For 4a/b you need to meet both.
+
+I think 1b is a unnecessary to include, because the threshold is being "upper tertile", the cutoff point for which I cannot find without poring over the biggest excel sheet, and most people will not know their peak oxygen uptake anyway. 
+
+So that leaves us with 9 measurements, and 8 binary components to give a score out of 8. 
+
+I've adjusted the sliders so that they 
+1) give a decent range of possible values for each measurement and 
+2) have their starting value at the threshold point.  
+
+In addition, at the bottom of the body_canvas file, I've written some code which should (hopefully) calculate the index score (healthIndex) from the sliders. 
+
+
+
+As for how we actually use that score, I propose we use the study's idea and split scores into three groups: 0-5, 6, and 7-8. 
+
+The study did this because that splits the participants into three equally sized groups and also because higher scores correlate with cerebrovascular health in every metric [see page six of the study].
+
+This means that in terms of visual effects for the human figure, we can split them into three categories based on which of the three categories the user's score falls into. 
+
+For example, we could have something like:
+
+if healthIndex <= 5 then head.colour = red
+else if healthIndex = 6 then head.colour = yellow
+else head.colour = green 
+
+(obviously this is pseudocode, but it illustrates how we could animate this).
