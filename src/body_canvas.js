@@ -1,9 +1,11 @@
-var canvas = document.querySelector('canvas');
+var canvas = document.getElementById('humanCanvas');
 canvas.width = window.innerWidth / 2;
 canvas.height = window.innerHeight * 0.98;
 
 var c = canvas.getContext('2d')
 
+// Leo: Code for original stickman Figure
+/*
 //head
 c.beginPath();
 var headX = canvas.width / 2
@@ -40,17 +42,41 @@ c.lineTo(headX, shoulder);
 c.lineTo(headX - armFootXOff, hand);
 
 c.stroke()
-
+*/
 var mouse = {
   x: undefined,
   y: undefined
 }
-
+/*
 function isOnHead() {
   xDiff = mouse.x - headX
   yDiff = mouse.y - headY
   return(Math.sqrt(xDiff * xDiff + yDiff * yDiff) <= headRadius)
 }
+*/
+
+// Leo: Human Body Image Loading
+var img = new Image()
+img.src = "../images/Human-Body.jpg";
+img.onload = function () {
+    c.drawImage(img, 0, 0, canvas.width, canvas.height);
+}
+
+// Check if mouse is hovering over parts of the body
+function isOnBrain() { // Leo: TODO 
+  return false 
+}
+function isOnHeart() { // Leo: TODO
+  return false
+}
+function isOnLungs() { // Leo: TODO
+  return false
+}
+
+// // listen for resizing of window event. Scale the image when needed
+window.addEventListener('resize', function(event) {
+    c.drawImage(img, 0, 0, canvas.width, canvas.height)
+})
 
 // listen for click event and check if click is on head
 // if so, run some function
@@ -59,14 +85,28 @@ window.addEventListener('click', function(event) {
   mouse.x = event.x
   mouse.y = event.y
   console.log(mouse)
-  if (isOnHead()) headClicked();
+
+  // Run actions according to the click
+  if (isOnBrain()) brainClicked()
+  if (isOnHeart()) heartClicked()
+  if (isOnLungs()) lungsClicked()
 
 })
 
-// action to take if head is clicked
-function headClicked() {
-  console.log('head clicked')
+// actions to take if parts of body are clicked
+function brainClicked(){
+  console.log("Brain Clicked")
+  window.location = "brain/brain.html"
 }
+function heartClicked(){
+  console.log("Heart Clicked")
+  window.location = "heart/heart.html"
+}
+function lungsClicked(){
+  console.log("Lungs Clicked")
+  window.location = "lungs/lungs.html"
+}
+
 
 /* The following lines *should* encode the 
 // Cardiovascular Health Indicators
@@ -100,6 +140,4 @@ var healthIndex = 0
 
 for (i = 0; i < healthPoints.length; i ++) { healthIndex += healthPoints(i) }
 
-
-
-
+*/

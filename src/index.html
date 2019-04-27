@@ -5,13 +5,15 @@
   <title>Canvas Resize</title>
 
   <link rel="stylesheet" type="text/css" href="main.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
 </head>
 <body>
   <div style = "height: 100%; line-height: 2em">
     <table>
         <!-- (Kareem): the sliders have been updated to contain information on nine different measures that are used in the formulation-->
       <tr>
-        <th rowspan="9" style="width:50%"><canvas></canvas></th>
+        <th rowspan="9" style="width:50%"><canvas id="humanCanvas"></canvas></th>
+
         <td>BMI: <span id="o0"></span><br/>
           <input type="range" min="15" max="35" value="25" class="slider" id="s0">
         </td>
