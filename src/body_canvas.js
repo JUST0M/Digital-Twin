@@ -1,7 +1,11 @@
 var canvas = document.getElementById('humanCanvas');
-canvas.width = window.innerWidth / 2;
-canvas.height = window.innerHeight * 0.98;
 
+function resizeCanvas(){
+  canvas.width = window.innerWidth / 2;
+  canvas.height = window.innerHeight * 0.98;  
+}
+
+resizeCanvas()
 var c = canvas.getContext('2d')
 
 // Leo: Code for original stickman Figure
@@ -43,10 +47,6 @@ c.lineTo(headX - armFootXOff, hand);
 
 c.stroke()
 */
-var mouse = {
-  x: undefined,
-  y: undefined
-}
 /*
 function isOnHead() {
   xDiff = mouse.x - headX
@@ -55,43 +55,122 @@ function isOnHead() {
 }
 */
 
-// Leo: Human Body Image Loading
-var img = new Image()
-img.src = "../images/Human-Body.jpg";
-img.onload = function () {
-    c.drawImage(img, 0, 0, canvas.width, canvas.height);
+// Image Rectangles
+
+var imageRect = (function () {
+
+    // constructor
+    function imageRect(img, x, y, width, height, stroke, strokewidth) {
+        this.x = x;
+        this.y = y;
+        this.img = img;
+        this.width = width;
+        this.height = height;
+        this.stroke = stroke || "skyblue";
+        this.strokewidth = strokewidth || 3;
+        this.redraw(this.x, this.y);
+        return (this);
+    }
+    imageRect.prototype.redraw = function (x, y) {
+        this.x = x || this.x;
+        this.y = y || this.y;
+        this.draw(this.stroke);
+        return (this);
+    }
+    //
+    imageRect.prototype.highlight = function (x, y) {
+        this.x = x || this.x;
+        this.y = y || this.y;
+        this.draw("orange");
+        return (this);
+    }
+    //
+    imageRect.prototype.draw = function (stroke) {
+        c.save();
+        c.beginPath();
+        c.strokeStyle = stroke;
+        c.lineWidth = this.strokewidth;
+        c.rect(this.x, this.y, this.width, this.height);
+        c.stroke();
+        c.drawImage(this.img, this.x, this.y, this.width, this.height)
+        c.restore();
+    }
+    //
+    imageRect.prototype.isPointInside = function (x, y) {
+        return (x >= this.x && x <= this.x + this.width && y >= this.y && y <= this.y + this.height);
+    }
+
+    return imageRect;
+})();
+
+
+// Loading body images
+var bodyImg = new Image()
+bodyImg.src = "../images/Human-Body-3.png";
+
+// Loading organ images
+var organDir = "../images/organs"
+// Brain
+var brainImg = new Image()
+brainImg.src = organDir + "/brain.png";
+// Heart
+var heartImg = new Image()
+heartImg.src = organDir + "/heart.png";
+
+var body = new imageRect(bodyImg, 0, 0, canvas.width/2, canvas.height)
+var brain = new imageRect(brainImg, canvas.width*3/4, 0, canvas.width/4, canvas.height/4)
+var heart = new imageRect(heartImg, canvas.width*3/4, canvas.height/4, canvas.width/4, canvas.height/4)
+
+function resetImages(){
+  body = new imageRect(bodyImg, 0, 0, canvas.width/2, canvas.height)
+  brain = new imageRect(brainImg, canvas.width*3/4, 0, canvas.width/4, canvas.height/4)
+  heart = new imageRect(heartImg, canvas.width*3/4, canvas.height/4, canvas.width/4, canvas.height/4)
 }
+
+
+
+function drawArrow(fromx, fromy, tox, toy){
+  c.beginPath()
+  var headlen = 10;   // length of head in pixels
+  var angle = Math.atan2(toy-fromy,tox-fromx);
+  c.moveTo(fromx, fromy);
+  c.lineTo(tox, toy);
+  c.lineTo(tox-headlen*Math.cos(angle-Math.PI/6),toy-headlen*Math.sin(angle-Math.PI/6));
+  c.moveTo(tox, toy);
+  c.lineTo(tox-headlen*Math.cos(angle+Math.PI/6),toy-headlen*Math.sin(angle+Math.PI/6));
+  c.stroke()
+}
+
+// Draw images
+function drawArrowsToBody(){
+  drawArrow(canvas.width*3/4 * 0.98, canvas.height/8, canvas.width/4, canvas.height/8) // Brain
+  drawArrow(canvas.width*3/4 * 0.98, canvas.height/3, canvas.width/4, canvas.height/3.5) // Heart
+}
+
+// listen for resizing of window event. Scale the image when needed
+function redraw(){
+  body.redraw()
+  brain.redraw()
+  heart.redraw()
+  drawArrowsToBody()
+}
+
+// Organs
+bodyImg.onload  = function () {body.redraw(); drawArrowsToBody();}
+brainImg.onload = function () {brain.redraw()}
+heartImg.onload = function () {heart.redraw()}
+
 
 // Check if mouse is hovering over parts of the body
-function isOnBrain() { // Leo: TODO 
-  return false 
+function isOnBody(x, y) { 
+  return body.isPointInside(x, y)
 }
-function isOnHeart() { // Leo: TODO
-  return false
+function isOnBrain(x, y) { 
+  return brain.isPointInside(x, y)
 }
-function isOnLungs() { // Leo: TODO
-  return false
+function isOnHeart(x, y) { 
+  return heart.isPointInside(x, y)
 }
-
-// // listen for resizing of window event. Scale the image when needed
-window.addEventListener('resize', function(event) {
-    c.drawImage(img, 0, 0, canvas.width, canvas.height)
-})
-
-// listen for click event and check if click is on head
-// if so, run some function
-window.addEventListener('click', function(event) {
-  console.log('clicked mouse')
-  mouse.x = event.x
-  mouse.y = event.y
-  console.log(mouse)
-
-  // Run actions according to the click
-  if (isOnBrain()) brainClicked()
-  if (isOnHeart()) heartClicked()
-  if (isOnLungs()) lungsClicked()
-
-})
 
 // actions to take if parts of body are clicked
 function brainClicked(){
@@ -102,10 +181,52 @@ function heartClicked(){
   console.log("Heart Clicked")
   window.location = "heart/heart.html"
 }
-function lungsClicked(){
-  console.log("Lungs Clicked")
-  window.location = "lungs/lungs.html"
+function bodyClicked(){
+  console.log("Body Clicked")
+  window.location = "body/body.html"
 }
+
+var mouse = {
+  x: undefined,
+  y: undefined
+}
+
+function handleWindowResize(event){
+    c.clearRect(0, 0, canvas.width, canvas.height);
+    resizeCanvas()
+    resetImages()
+    redraw()
+}
+
+function handleMouseMove(event){
+  mouse.x = event.x
+  mouse.y = event.y
+  // Run actions according to mouse position
+  if (isOnBody(mouse.x, mouse.y)) {body.highlight(); drawArrowsToBody()}
+  else {body.redraw(); drawArrowsToBody()}
+  if (isOnBrain(mouse.x, mouse.y)) brain.highlight()
+  else brain.redraw()
+  if (isOnHeart(mouse.x, mouse.y)) heart.highlight()
+  else heart.redraw()
+}
+
+function handleMouseClick(event){
+  console.log('clicked mouse')
+  mouse.x = event.x
+  mouse.y = event.y
+  console.log(mouse)
+
+  // Run actions according to the click
+  if (isOnBody(mouse.x, mouse.y)) bodyClicked()
+  if (isOnBrain(mouse.x, mouse.y)) brainClicked()
+  if (isOnHeart(mouse.x, mouse.y)) heartClicked()
+}
+
+
+// Listen for events
+window.addEventListener('resize', handleWindowResize)
+window.addEventListener('mousemove', handleMouseMove)
+window.addEventListener('click', handleMouseClick)
 
 
 /* The following lines *should* encode the 
