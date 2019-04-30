@@ -2,7 +2,7 @@ var canvas = document.getElementById('humanCanvas');
 
 function resizeCanvas(){
   canvas.width = window.innerWidth / 2;
-  canvas.height = window.innerHeight * 0.98;  
+  canvas.height = window.innerHeight * 0.98;
 }
 
 resizeCanvas()
@@ -162,13 +162,13 @@ heartImg.onload = function () {heart.redraw()}
 
 
 // Check if mouse is hovering over parts of the body
-function isOnBody(x, y) { 
+function isOnBody(x, y) {
   return body.isPointInside(x, y)
 }
-function isOnBrain(x, y) { 
+function isOnBrain(x, y) {
   return brain.isPointInside(x, y)
 }
-function isOnHeart(x, y) { 
+function isOnHeart(x, y) {
   return heart.isPointInside(x, y)
 }
 
@@ -229,18 +229,18 @@ window.addEventListener('mousemove', handleMouseMove)
 window.addEventListener('click', handleMouseClick)
 
 
-/* The following lines *should* encode the 
+/* The following lines *should* encode the
 // Cardiovascular Health Indicators
 var bmi = parseInt(document.getElementById(s0).value, 10)
 var vpa = parseInt(document.getElementById(s1).value, 10)
-var pvo2 = 
+var pvo2 =
 var alc = parseInt(document.getElementById(s2).value, 10)
-var smo = parseInt(document.getElementById(s3).value, 10) // "have you been a smoker in the past six months?"
-var asbp = parseInt(document.getElementById(s4).value, 10)
-var adbp = parseInt(document.getElementById(s5).value, 10)
-var pedbp = parseInt(document.getElementById(s6).value, 10)
-var cho = parseInt(document.getElementById(s7).value, 10)
-var glu = parseInt(document.getElementById(s8).value, 10)
+var smo = parseInt(document.getElementById(smoking).value, 10) // "have you been a smoker in the past six months?"
+var asbp = parseInt(document.getElementById(s3).value, 10)
+var adbp = parseInt(document.getElementById(s4).value, 10)
+var pedbp = parseInt(document.getElementById(s5).value, 10)
+var cho = parseInt(document.getElementById(s6).value, 10)
+var glu = parseInt(document.getElementById(s7).value, 10)
 
 
 // Array containing 1s and 0s detailing whether each of the study's thresholds are met
