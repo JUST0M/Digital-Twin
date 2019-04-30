@@ -1,12 +1,17 @@
-console.log("o".concat(1));
+console.log("b".concat(1));
 //var str = "o".concat(2);
 function updateSlider(i) {
-  return function() {document.getElementById("o".concat(i)).innerHTML = this.value};
+  return function() {document.getElementById("b".concat(i)).value = this.value};
 }
-const numSliders = 10;
+function updateBox(i) {
+  return function() {document.getElementById("s".concat(i)).value = this.value};
+}
+
+const numSliders = 9;
 window.onload = function(){
   for (i = 0; i < numSliders; i++){
     document.getElementById("s".concat(i)).oninput = updateSlider(i)
+    document.getElementById("b".concat(i)).oninput = updateBox(i)
   }
 }
 
