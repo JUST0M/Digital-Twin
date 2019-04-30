@@ -9,56 +9,121 @@
 </head>
 <body>
   <div style = "height: 100%; line-height: 2em">
-    <table>
-        <!-- (Kareem): the sliders have been updated to contain information on nine different measures that are used in the formulation-->
+    <table style = "float: left">
       <tr>
         <th rowspan="9" style="width:50%"><canvas id="humanCanvas"></canvas></th>
-
-        <td>BMI: <span id="o0"></span><br/>
-          <input type="range" min="15" max="35" value="25" class="slider" id="s0">
-        </td>
-      </tr>
-      <tr>
-        <td>Vigorous Physical Activity: <span id="o1"></span><br/>
-          <input type="range" min="0" max="300" value="75" class="slider" id="s1">
-        </td>
-      </tr>
-      <tr>
-        <td>Alcoholic Drinks per Week: <span id="o2"></span><br/>
-          <input type="range" min="0" max="30" value="8" class="slider" id="s2">
-        </td>
-      </tr>
-      <tr>
-        <td>Smoking in the Past Six Months: <span id="o3"></span><br/>
-          <input type="range" min="0" max="1" value="0" class="slider" id="s3">
-        </td>
-      </tr>
-      <tr>
-        <td>Ambulatory Systolic Blood Pressure: <span id="o4"></span><br/>
-          <input type="range" min="90" max="180" value="130" class="slider" id="s4">
-        </td>
-      </tr>
-      <tr>
-        <td>Ambulatory Diastolic Blood Pressure: <span id="o5"></span><br/>
-          <input type="range" min="50" max="110" value="80" class="slider" id="s5">
-        </td>
-      </tr>
-      <tr>
-        <td>Post-Exercise Diastolic Blood Pressure: <span id="o6"></span><br/>
-          <input type="range" min="60" max="125" value="90" class="slider" id="s6">
-        </td>
-      </tr>
-      <tr>
-        <td>Cholesterol: <span id="o7"></span><br/>
-          <input type="range" min="0" max="500" value="200" class="slider" id="s7">
-        </td>
-      </tr>
-      <tr>
-        <td>Blood Glucose: <span id="o8"></span><br/>
-          <input type="range" min="0" max="250" value="100" class="slider" id="s8">
-        </td>
       </tr>
     </table>
+
+    <!-- Yoojin: New <div>s added so that we can separate the left hand side and the right hand side, thus being able to fix the canvas and scroll on the right hand side. Checked by adding 10+ sliders. See main.css for table-wrapper, etc.-->
+
+    <div id="table-wrapper">
+      <div id="table-scroll">
+        <table style = "float: left">
+          <!-- (Kareem): the sliders have been updated to contain information on nine different measures that are used in the formulation-->
+          <tr>
+            <td>BMI: <span id="o0"></span><br/>
+              <input type="range" min="15" max="35" value="25" class="slider" id="s0">
+            </td>
+          </tr>
+          <tr>
+            <td>Vigorous Physical Activity: <span id="o1"></span><br/>
+              <input type="range" min="0" max="300" value="75" class="slider" id="s1">
+            </td>
+          </tr>
+          <tr>
+            <td>Alcoholic Drinks per Week: <span id="o2"></span><br/>
+              <input type="range" min="0" max="30" value="8" class="slider" id="s2">
+            </td>
+          </tr>
+          <tr>
+            <td>Smoking in the Past Six Months: <span id="o3"></span><br/>
+              <input type="range" min="0" max="1" value="0" class="slider" id="s3">
+            </td>
+          </tr>
+          <tr>
+            <td>Ambulatory Systolic Blood Pressure: <span id="o4"></span><br/>
+              <input type="range" min="90" max="180" value="130" class="slider" id="s4">
+            </td>
+          </tr>
+          <tr>
+            <td>Ambulatory Diastolic Blood Pressure: <span id="o5"></span><br/>
+              <input type="range" min="50" max="110" value="80" class="slider" id="s5">
+            </td>
+          </tr>
+          <tr>
+            <td>Post-Exercise Diastolic Blood Pressure: <span id="o6"></span><br/>
+              <input type="range" min="60" max="125" value="90" class="slider" id="s6">
+            </td>
+          </tr>
+          <tr>
+            <td>Cholesterol: <span id="o7"></span><br/>
+              <input type="range" min="0" max="500" value="200" class="slider" id="s7">
+            </td>
+          </tr>
+          <tr>
+            <td>Blood Glucose: <span id="o8"></span><br/>
+              <input type="range" min="0" max="250" value="100" class="slider" id="s8">
+            </td>
+          </tr>
+          <tr>
+            <td>Scroll Test: <span id="o8"></span><br/>
+              <input type="range" min="0" max="250" value="100" class="slider" id="s8">
+            </td>
+          </tr>
+          <tr>
+            <td>Scroll Test: <span id="o8"></span><br/>
+              <input type="range" min="0" max="250" value="100" class="slider" id="s8">
+            </td>
+          </tr>
+          <tr>
+            <td>Scroll Test: <span id="o8"></span><br/>
+              <input type="range" min="0" max="250" value="100" class="slider" id="s8">
+            </td>
+          </tr>
+          <tr>
+            <td>Scroll Test: <span id="o8"></span><br/>
+              <input type="range" min="0" max="250" value="100" class="slider" id="s8">
+            </td>
+          </tr>
+          <tr>
+            <td>Scroll Test: <span id="o8"></span><br/>
+              <input type="range" min="0" max="250" value="100" class="slider" id="s8">
+            </td>
+          </tr>
+          <tr>
+            <td>Scroll Test: <span id="o8"></span><br/>
+              <input type="range" min="0" max="250" value="100" class="slider" id="s8">
+            </td>
+          </tr>
+          <tr>
+            <td>Scroll Test: <span id="o8"></span><br/>
+              <input type="range" min="0" max="250" value="100" class="slider" id="s8">
+            </td>
+          </tr>
+          <tr>
+            <td>Scroll Test: <span id="o8"></span><br/>
+              <input type="range" min="0" max="250" value="100" class="slider" id="s8">
+            </td>
+          </tr>
+          <tr>
+            <td>Scroll Test: <span id="o8"></span><br/>
+              <input type="range" min="0" max="250" value="100" class="slider" id="s8">
+            </td>
+          </tr>
+          <tr>
+            <td>Scroll Test: <span id="o8"></span><br/>
+              <input type="range" min="0" max="250" value="100" class="slider" id="s8">
+            </td>
+          </tr>
+          <tr>
+            <td>Scroll Test: <span id="o8"></span><br/>
+              <input type="range" min="0" max="250" value="100" class="slider" id="s8">
+            </td>
+          </tr>
+        </table>
+      </div>
+    </div>
   </div>
   <script src="sliders.js"></script>
   <script src="body_canvas.js"></script>
