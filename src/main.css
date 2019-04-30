@@ -1,6 +1,6 @@
 canvas {
   border: 1px solid black;
-  background: white
+  background: white;
 }
 html{
   height: 100%;
@@ -12,7 +12,8 @@ body {
 }
 table {
   height: 100%;
-  width: 100%;
+  width: 40%;
+  overflow: auto;
 }
 .slidecontainer {
   /*position: relative;
@@ -20,11 +21,23 @@ table {
 
 }
 
+#table-wrapper {
+  position:relative;
+}
+#table-scroll {
+  height:800px;
+  overflow:auto;
+  margin-top:20px;
+}
+#table-wrapper table {
+  width:100%;
+}
+
 .slider {
   /*position: absolute;*/
   /*top: 0;*/
   -webkit-appearance: none;
-  width: 50%;
+  width: 90%;
   height: 15px;
   border-radius: 5px;
   background: #d3d3d3;
