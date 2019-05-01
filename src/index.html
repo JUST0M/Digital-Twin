@@ -9,12 +9,20 @@
 </head>
 <body>
   <div style = "height: 100%; line-height: 2em">
-    <table>
-        <!-- (Kareem): the sliders have been updated to contain information on nine different measures that are used in the formulation-->
+    <table style = "float: left">
       <tr>
         <th rowspan="9" style="width:50%"><canvas id="humanCanvas"></canvas></th>
+      </tr>
+    </table>
 
-        <td>BMI: <input type="number" min="15" max="35" value="25" id="b0"><br/>
+    <!-- Yoojin: New <div>s added so that we can separate the left hand side and the right hand side, thus being able to fix the canvas and scroll on the right hand side. Checked by adding 10+ sliders. See main.css for table-wrapper, etc.-->
+
+    <div id="table-wrapper">
+      <div id="table-scroll">
+        <table style = "float: left">
+          <!-- (Kareem): the sliders have been updated to contain information on nine different measures that are used in the formulation-->
+          <tr>
+            <td>BMI: <input type="number" min="15" max="35" value="25" id="b0"><br/>
           <input type="range" min="15" max="35" value="25" class="slider" id="s0">
         </td>
       </tr>
@@ -57,7 +65,9 @@
           <input type="range" min="0" max="250" value="100" class="slider" id="s7">
         </td>
       </tr>
-    </table>
+     </table>
+      </div>
+    </div>
   </div>
   <script src="sliders.js"></script>
   <script src="body_canvas.js"></script>
