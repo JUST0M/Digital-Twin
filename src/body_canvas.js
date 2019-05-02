@@ -1,3 +1,13 @@
+//Ben: Fetch appropriate elements for picture popups
+var heartModal = document.getElementById('heartModal');
+var heartSpan = document.getElementsByClassName("close")[0];
+
+var brainModal = document.getElementById('brainModal');
+var brainSpan = document.getElementsByClassName("close")[1];
+
+var bodyModal = document.getElementById('bodyModal');
+var bodySpan = document.getElementsByClassName("close")[2];
+
 var canvas = document.getElementById('humanCanvas');
 
 function resizeCanvas(){
@@ -174,17 +184,34 @@ function isOnHeart(x, y) {
 
 // actions to take if parts of body are clicked
 function brainClicked(){
-  console.log("Brain Clicked")
-  window.location = "brain/brain.html"
+  bodyModal.style.display = "none"; //Hide the body modal if it is open
+  heartModal.style.display = "none"; //Hide the heart modal if it is open
+  brainModal.style.display = "block"; //Display brain modal
 }
 function heartClicked(){
-  console.log("Heart Clicked")
-  window.location = "heart/heart.html"
+  bodyModal.style.display = "none"; //Hide the body modal if it is open
+  brainModal.style.display = "none"; //Hide the brain modal if it is open
+  heartModal.style.display = "block"; //Display heart modal
 }
 function bodyClicked(){
-  console.log("Body Clicked")
-  window.location = "body/body.html"
+  brainModal.style.display = "none"; //Hide the brain modal if it is open
+  heartModal.style.display = "none"; //Hide the heart modal if it is open
+  bodyModal.style.display = "block"; //Display body modal
 }
+
+// Ben: When the user clicks on *span (x), close the modal
+heartSpan.onclick = function() {
+  heartModal.style.display = "none";
+}
+
+brainSpan.onclick = function() {
+  brainModal.style.display = "none";
+}
+
+bodySpan.onclick = function() {
+  bodyModal.style.display = "none";
+}
+
 
 var mouse = {
   x: undefined,
