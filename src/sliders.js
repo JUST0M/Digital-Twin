@@ -7,7 +7,7 @@ function updateBox(i) {
   return function() {document.getElementById("s".concat(i)).value = this.value};
 }
 
-const numSliders = 9;
+const numSliders = 8;
 window.onload = function(){
   for (i = 0; i < numSliders; i++){
     document.getElementById("s".concat(i)).oninput = updateSlider(i)
