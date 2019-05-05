@@ -251,45 +251,15 @@ function handleMouseClick(event){
   if (isOnBrain(mouse.x, mouse.y)) brainClicked()
   if (isOnHeart(mouse.x, mouse.y)) heartClicked()
 }
-
+ 
 
 // Listen for events
 window.addEventListener('resize', handleWindowResize)
 window.addEventListener('mousemove', handleMouseMove)
 window.addEventListener('click', handleMouseClick)
 
+var cardiovascularHealth = getCardiovascularHealth()
 
-// The following lines *should* encode the
-// Cardiovascular Health Indicators
-var bmi = parseInt(document.getElementById('s0').value, 10)
-var vpa = parseInt(document.getElementById('s1').value, 10)
-// var pvo2 =
-var alc = parseInt(document.getElementById('s2').value, 10)
-var smo = parseInt(document.getElementById('smoking').value, 10) // "have you been a smoker in the past six months?"
-var asbp = parseInt(document.getElementById('s3').value, 10)
-var adbp = parseInt(document.getElementById('s4').value, 10)
-var pedbp = parseInt(document.getElementById('s5').value, 10)
-var cho = parseInt(document.getElementById('s6').value, 10)
-var glu = parseInt(document.getElementById('s7').value, 10)
-
-
-// Array containing 1s and 0s detailing whether each of the study's thresholds are met
-var healthPoints = []
-
-if (bmi < 25) {healthPoints[0].push(1)} else {healthPoints[0].push(0)}
-if (vpa >= 75) {healthPoints[1].push(1)} else {healthPoints[1].push(0)}
-if (alc < 8) {healthPoints[2].push(1)} else {healthPoints[2].push(0)}
-if (smo = 0) {healthPoints[3].push(1)} else {healthPoints[3].push(0)}
-if (asdp < 130 && adbp < 80) {healthPoints[4].push(1)} else {healthPoints([4].push(0)}
-if (pedbp < 90) {healthPoints[5].push(1)} else {healthPoints[5].push(0)}
-if (cho < 200) {healthPoints[6].push(1)} else {healthPoints[6].push(0)}
-if (glu < 100) {healthPoints[7].push(1)} else {healthPoints[7].push(0)}
-
-// Patient's score
-
-var healthIndex = 0
-
-for (i = 0; i < healthPoints.length; i ++) { healthIndex += healthPoints[i] }
-
+console.log(cardiovascularHealth)
 // brain colour
 
