@@ -6,6 +6,7 @@ function missedThreshold(healthPoints){
 }
 
 // Calculates Cardiovascular Health
+// Returns a value from 0 - 8
 function getCardiovascularHealth(){
   // Array containing 1s and 0s detailing whether each of the study's thresholds are met
   var healthPoints = []
@@ -40,4 +41,41 @@ function getCardiovascularHealth(){
     healthIndex += healthPoints[i] 
   }
   return healthIndex
+}
+
+// Calculates heart for each part of the body 
+function getBodyHealth(){
+  return getCardiovascularHealth()
+}
+
+function getHeartHealth(){
+  return getCardiovascularHealth()
+}
+
+function getBrainHealth(){
+  var healthIndex = getCardiovascularHealth()
+  console.log("Brain Health: " + healthIndex)
+  return healthIndex
+}
+
+// Colour indicator for the body parts
+function getBodyColour(){
+  return getBrainColour() // Tentatively, only brain has a score indicator
+}
+function getHeartColour(){
+  return getBrainColour() // Tentatively, only brain has a score indicator
+}
+function getBrainColour(){
+  var healthIndex = getBrainHealth()
+
+  // Split into tertiles by the JAMA paper
+  if (healthIndex < 6){ // Lower tertile - 0 to 5
+    return "red"
+  }
+  else if (healthIndex < 7){ // Middle tertile - 6
+    return "orange"
+  }
+  else{ // Upper tertile - 7 to 8
+    return "green"
+  }
 }

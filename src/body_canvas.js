@@ -18,141 +18,29 @@ function resizeCanvas(){
 resizeCanvas()
 var c = canvas.getContext('2d')
 
-// Leo: Code for original stickman Figure
-/*
-//head
-c.beginPath();
-var headX = canvas.width / 2
-var headY = canvas.height / 4
-var headRadius = canvas.height / 10
-c.arc(headX, headY, headRadius, 0, Math.PI * 2)
-//outline is blue
-c.strokeStyle = 'blue'
-// fill is black
-c.fillStyle = 'black'
-c.fill()
-c.stroke()
-
-//draw body
-var shoulder = headY + 1.5 * headRadius
-var butt = headY + 3.6 * headRadius
-var hand = headY + 2.5 * headRadius
-var foot = headY + 4.8 * headRadius
-var armFootXOff = headRadius * 1.3
-
-c.beginPath()
-c.moveTo(headX, headY + headRadius)
-//body
-c.lineTo(headX, butt);
-//right leg
-c.lineTo(headX + armFootXOff, foot);
-//left leg
-c.moveTo(headX, butt)
-c.lineTo(headX - armFootXOff, foot)
-//right arm
-c.moveTo(headX + armFootXOff, hand)
-c.lineTo(headX, shoulder);
-//left arm
-c.lineTo(headX - armFootXOff, hand);
-
-c.stroke()
-*/
-/*
-function isOnHead() {
-  xDiff = mouse.x - headX
-  yDiff = mouse.y - headY
-  return(Math.sqrt(xDiff * xDiff + yDiff * yDiff) <= headRadius)
-}
-*/
-
-// Image Rectangles
-
-var imageRect = (function () {
-
-    // constructor
-    function imageRect(img, x, y, width, height, fillColour, stroke, strokewidth) {
-        this.x = x;
-        this.y = y;
-        this.img = img;
-        this.width = width;
-        this.height = height;
-        this.fillColour = fillColour || "grey"
-        this.stroke = stroke || "skyblue";
-        this.strokewidth = strokewidth || 3;
-        this.redraw(this.x, this.y);
-        return (this);
-    }
-    imageRect.prototype.redraw = function (x, y) {
-        this.x = x || this.x;
-        this.y = y || this.y;
-        this.draw(this.stroke);
-        return (this);
-    }
-    //
-    imageRect.prototype.highlight = function (x, y) {
-        this.x = x || this.x;
-        this.y = y || this.y;
-        this.draw("orange");
-        return (this);
-    }
-    //
-    imageRect.prototype.draw = function (stroke) {
-        c.save();
-        c.beginPath();
-        c.strokeStyle = stroke;
-        c.lineWidth = this.strokewidth;
-        c.rect(this.x, this.y, this.width, this.height);
-        c.stroke();
-        c.fillStyle = this.fillColour
-        c.fillRect(this.x, this.y, this.width, this.height);
-        c.drawImage(this.img, this.x, this.y, this.width, this.height)
-        c.restore();
-    }
-    //
-    imageRect.prototype.isPointInside = function (x, y) {
-        return (x >= this.x && x <= this.x + this.width && y >= this.y && y <= this.y + this.height);
-    }
-
-    return imageRect;
-})();
-
-
-// Loading body images
+// Loads body images
 var bodyImg = new Image()
 bodyImg.src = "../images/Human-Body-3.png";
 
-// Loading organ images
+// Loads organ images
 var organDir = "../images/organs"
-// Brain
+// brain
 var brainImg = new Image()
 brainImg.src = organDir + "/brain.png";
-// Heart
+// heart
 var heartImg = new Image()
 heartImg.src = organDir + "/heart.png";
 
-var body = new imageRect(bodyImg, 0, 0, canvas.width/2, canvas.height)
-var brain = new imageRect(brainImg, canvas.width*3/4, 0, canvas.width/4, canvas.height/4)
-var heart = new imageRect(heartImg, canvas.width*3/4, canvas.height/4, canvas.width/4, canvas.height/4)
+var body = new imageRect(bodyImg, 0, 0, canvas.width/2, canvas.height, getBodyColour())
+var brain = new imageRect(brainImg, canvas.width*3/4, 0, canvas.width/4, canvas.height/4, getBrainColour())
+var heart = new imageRect(heartImg, canvas.width*3/4, canvas.height/4, canvas.width/4, canvas.height/4, getHeartColour())
 
 function resetImages(){
-  body = new imageRect(bodyImg, 0, 0, canvas.width/2, canvas.height)
-  brain = new imageRect(brainImg, canvas.width*3/4, 0, canvas.width/4, canvas.height/4)
-  heart = new imageRect(heartImg, canvas.width*3/4, canvas.height/4, canvas.width/4, canvas.height/4)
+  body = new imageRect(bodyImg, 0, 0, canvas.width/2, canvas.height, getBodyColour())
+  brain = new imageRect(brainImg, canvas.width*3/4, 0, canvas.width/4, canvas.height/4, getBrainColour())
+  heart = new imageRect(heartImg, canvas.width*3/4, canvas.height/4, canvas.width/4, canvas.height/4, getHeartColour())
 }
 
-
-
-function drawArrow(fromx, fromy, tox, toy){
-  c.beginPath()
-  var headlen = 10;   // length of head in pixels
-  var angle = Math.atan2(toy-fromy,tox-fromx);
-  c.moveTo(fromx, fromy);
-  c.lineTo(tox, toy);
-  c.lineTo(tox-headlen*Math.cos(angle-Math.PI/6),toy-headlen*Math.sin(angle-Math.PI/6));
-  c.moveTo(tox, toy);
-  c.lineTo(tox-headlen*Math.cos(angle+Math.PI/6),toy-headlen*Math.sin(angle+Math.PI/6));
-  c.stroke()
-}
 
 // Draw images
 function drawArrowsToBody(){
