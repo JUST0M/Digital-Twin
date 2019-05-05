@@ -1,4 +1,4 @@
-console.log("b".concat(1));
+//console.log("b".concat(1));
 //var str = "o".concat(2);
 function updateSlider(i) {
   return function() {document.getElementById("b".concat(i)).value = this.value};
