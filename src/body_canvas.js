@@ -110,10 +110,10 @@ var mouse = {
 }
 
 function handleWindowResize(event){
-    c.clearRect(0, 0, canvas.width, canvas.height);
-    resizeCanvas()
-    resetImages()
-    redraw()
+  c.clearRect(0, 0, canvas.width, canvas.height);
+  resizeCanvas()
+  resetImages()
+  redraw()  
 }
 
 function handleMouseMove(event){
