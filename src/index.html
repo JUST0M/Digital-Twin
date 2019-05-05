@@ -7,6 +7,7 @@
   <link rel="stylesheet" type="text/css" href="main.css">
   <link rel="stylesheet" type="text/css" href="modalStyle.css">
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
+  <script src="sliders.js"></script>
 </head>
 <body>
   <div style = "height: 100%; line-height: 2em">
@@ -70,48 +71,46 @@
       </div>
     </div>
 
-  <!-- Ben: Pop up boxes, represented by modals -->
-  <div id="heartModal" class="modal" style="display: none" >
-    <!-- Modal content -->
-    <div class="modal-content">
-      <div class="modal-header">
-        <span class="close">&times;</span>
-        <h2>Heart Modal</h2>
+    <!-- Ben: Pop up boxes, represented by modals -->
+    <div id="heartModal" class="modal" style="display: none" >
+      <!-- Modal content -->
+      <div class="modal-content">
+        <div class="modal-header">
+          <span class="close">&times;</span>
+          <h2>Heart Modal</h2>
+        </div>
+        <div class="modal-body">
+          <p>Heart modal text...</p>
+        </div>
       </div>
-      <div class="modal-body">
-        <p>Heart modal text...</p>
+    </div>
+
+    <div id="brainModal" class="modal" style="display: none" >
+      <!-- Modal content -->
+      <div class="modal-content">
+        <div class="modal-header">
+          <span class="close">&times;</span>
+          <h2>Brain Modal</h2>
+        </div>
+        <div class="modal-body">
+          <p>Brain modal text...</p>
+        </div>
+      </div>
+    </div>
+
+    <div id="bodyModal" class="modal" style="display: none" >
+      <!-- Modal content -->
+      <div class="modal-content">
+        <div class="modal-header">
+          <span class="close">&times;</span>
+          <h2>Body Modal</h2>
+        </div>
+        <div class="modal-body">
+          <p>Body modal text...</p>
+        </div>
       </div>
     </div>
   </div>
-
-  <div id="brainModal" class="modal" style="display: none" >
-    <!-- Modal content -->
-    <div class="modal-content">
-      <div class="modal-header">
-        <span class="close">&times;</span>
-        <h2>Brain Modal</h2>
-      </div>
-      <div class="modal-body">
-        <p>Brain modal text...</p>
-      </div>
-    </div>
-  </div>
-
-  <div id="bodyModal" class="modal" style="display: none" >
-    <!-- Modal content -->
-    <div class="modal-content">
-      <div class="modal-header">
-        <span class="close">&times;</span>
-        <h2>Body Modal</h2>
-      </div>
-      <div class="modal-body">
-        <p>Body modal text...</p>
-      </div>
-    </div>
-  </div>
-
-  </div>
-  <script src="sliders.js"></script>
   <script src="body_canvas.js"></script>
 </body>
 </html>
