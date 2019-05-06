@@ -48,7 +48,7 @@ function dataInputHtml($factorData, $n) {
 
 
 
-$sliderHtml = slider("Vigorous Physical Activity (minutes per week)", 0, 300, 75, array(array("healthiness" => 0, "min" => 0, "max" => 0), array("healthiness" => 1, "min" => 90, "max" => 135), array("healthiness" => 2, "min" => 150, "max" => 300)), 1);
+// $sliderHtml = slider("Vigorous Physical Activity (minutes per week)", 0, 300, 75, array(array("healthiness" => 0, "min" => 0, "max" => 0), array("healthiness" => 1, "min" => 90, "max" => 135), array("healthiness" => 2, "min" => 150, "max" => 300)), 1);
 
 $servername = "localhost";
 $username = "master";
@@ -62,7 +62,7 @@ if ($conn->connect_error) {
   die("Connection failed: " . $conn->connect_error);
 }
 
-$sql = "SELECT f.factor_id as id, f.factor as factor, f.question as q, f.min as min, f.max as max, f.def as def, f.type as t, r.healthiness as healthiness, r.min as rmin, r.max as rmax, r.factor_id as id2 FROM factors f LEFT JOIN factor_ranges r ON f.factor_id = r.factor_id";
+$sql = "SELECT f.factor_id as id, f.factor as factor, f.question as q, f.min as min, f.max as max, f.def as def, f.data_type as t, r.healthiness as healthiness, r.min as rmin, r.max as rmax FROM factors f LEFT JOIN factor_ranges r ON f.factor_id = r.factor_id";
 $result = $conn->query($sql);
 
 $sliderHtml = "";
@@ -74,12 +74,10 @@ if ($result->num_rows > 0) {
     //echo $row["id"];
     //have already put info in for this id so just add a colour range
     if(in_array($row["id"], array_keys($factorInfo))){
-      echo "<script> console.log(\"adding more\") </script>";
       array_push($factorInfo[$row["id"]]["colRanges"], array("healthiness" => $row["healthiness"], "min" => $row["rmin"], "max" => $row["rmax"]));
     }
     else{
-      echo "<script> console.log(\"new slider\") </script>";
-      $factorInfo[$row["id"]] = array("factor" =? $row["factor"],
+      $factorInfo[$row["id"]] = array("factor" => $row["factor"],
                                       "question" => $row["q"],
                                       "min" => $row["min"],
                                       "max" => $row["max"],
@@ -93,7 +91,6 @@ if ($result->num_rows > 0) {
   $n = 0;
   foreach($factorInfo as $key => $fInfo){
     $toPrint = count($factorInfo);
-    echo "<script>console.log(\"$toPrint\");</script>";
     $sliderHtml .= dataInputHtml($fInfo, $n);
     $n++;
   }
@@ -129,46 +126,7 @@ $conn->close();
       <div id="table-scroll">
         <table style = "float: left">
           <!-- (Kareem): the sliders have been updated to contain information on nine different measures that are used in the formulation-->
-          <tr>
-            <td>BMI: <input type="number" min="15" max="35" value="25" id="b0"><br/>
-              <input type="range" min="15" max="35" value="25" class="slider" id="s0" style="background:linear-gradient(90deg, #f00000 0%, #f0c800 10%, #00c800 17.5% 50%, #f0c800 55% 70%, #f00000 80% 100%)">
-            </td>
-          </tr>
           <?php echo $sliderHtml; ?>
-          <tr>
-            <td>Alcoholic Units (per Week): <input type="number" min="0" max="30" value="8" id="b2"><br/>
-              <input type="range" min="0" max="30" value="8" class="slider" id="s2" style="background:linear-gradient(90deg, #00c800 0% 45%, #f0c800 50% 65%, #f00000 75% 100%)">
-            </td>
-          </tr>
-          <tr>
-            <td><input type="checkbox" id="smoking" unchecked> I have been smoking in the past six months<br/>
-            </td>
-          </tr>
-          <tr>
-            <td>Ambulatory Systolic Blood Pressure (mm/Hg): <input type="number" min="60" max="180" value="130" id="b3"><br/>
-              <input type="range" min="60" max="180" value="130" class="slider" id="s3" style="background:linear-gradient(90deg, #f00000 0% 17%, #f0c800 23%, #00c800 30% 45%, #f0c800 60%, #f00000 70% 100%)">
-            </td>
-          </tr>
-          <tr>
-            <td>Ambulatory Diastolic Blood Pressure (mm/Hg): <input type="number" min="50" max="120" value="80" id="b4"><br/>
-              <input type="range" min="50" max="120" value="80" class="slider" id="s4" style="background:linear-gradient(90deg, #f00000 0% 10%, #f0c800 15%, #00c800 20% 40%, #f0c800 50%, #f00000 60% 100%)">
-            </td>
-          </tr>
-          <tr>
-            <td>Post-Exercise Diastolic Blood Pressure (mm/Hg): <input type="number" min="50" max="120" value="90" id="b5"><br/>
-              <input type="range" min="50" max="120" value="90" class="slider" id="s5" style="background:linear-gradient(90deg, #f00000 0% 10%, #f0c800 20%, #00c800 25% 50%, #f0c800 60%, #f00000 70% 100%)">
-            </td>
-          </tr>
-          <tr>
-            <td>Cholesterol (mg/dL): <input type="number" min="50" max="350" value="200" id="b6"><br/>
-              <input type="range" min="50" max="350" value="200" class="slider" id="s6" style="background:linear-gradient(90deg, #00c800 0% 50%, #f0c800 55%, #f00000 60% 100%)">
-            </td>
-          </tr>
-          <tr>
-            <td>Blood Glucose (mg/dL): <input type="number" min="50" max="150" value="100" id="b7"><br/>
-              <input type="range" min="50" max="150" value="100" class="slider" id="s7" style="background:linear-gradient(90deg, #f00000 0% 15%, #f0c800 20% 25%, #00c800 30% 43%, #f0c800 57% 65%, #f00000 70% 100%)">
-            </td>
-          </tr>
         </table>
       </div>
     </div>
