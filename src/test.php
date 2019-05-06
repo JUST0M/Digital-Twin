@@ -6,24 +6,28 @@ $yellow = "#f0c800";
 $green = "#00c800";
 $colours = array($red, $yellow, $green);
 
+$sliderIds = array();
+$checkboxIds = array();
 
 // return data input html (either a slider or a checkbox)
-function dataInputHtml($factorData, $n) {
-  global $colours;
+function dataInputHtml($factorData) {
+  global $colours; global $sliderIds; global $checkboxIds;
   $min = $factorData["min"]; $max = $factorData["max"];
   $dType = $factorData["type"];
   $question = $factorData["question"]; $default = $factorData["default"];
   $factorName = $factorData["factor"];
   // if boolean datatype then just add a checkbox
   if ($dType == 0) {
+    array_push($checkboxIds, "\"$factorName\"");
     $checkboxHtml = "<tr>
-                       <td><input type=\"checkbox\" id=\"$factorName\" unchecked> $question<br/>
+                       <td><input type=\"checkbox\" id=\"checkbox-$factorName\" unchecked> $question<br/>
                        </td>
                      </tr>";
     return($checkboxHtml);
   }
   // for int and float add a slider
   else{
+    array_push($sliderIds, "\"$factorName\"");
     $range = $max - $min;
     $gradientHtml = "90deg";
     foreach ($factorData["colRanges"] as $colRange) {
@@ -38,8 +42,8 @@ function dataInputHtml($factorData, $n) {
     }
 
     $sliderHtml = "<tr>
-                     <td>$question: <input type=\"number\" min=\"$min\" max=\"$max\" value=\"$default\" id=\"b$n\"><br/>
-                       <input type=\"range\" min=\"$min\" max=\"$max\" value=\"$default\" class=\"slider\" id=\"s$n\" style=\"background:linear-gradient($gradientHtml)\">
+                     <td>$question: <input type=\"number\" min=\"$min\" max=\"$max\" value=\"$default\" id=\"box-$factorName\"><br/>
+                       <input type=\"range\" min=\"$min\" max=\"$max\" value=\"$default\" class=\"slider\" id=\"slider-$factorName\" style=\"background:linear-gradient($gradientHtml)\">
                      </td>
                    </tr>";
     return($sliderHtml);
@@ -91,12 +95,16 @@ if ($result->num_rows > 0) {
   $n = 0;
   foreach($factorInfo as $key => $fInfo){
     $toPrint = count($factorInfo);
-    $sliderHtml .= dataInputHtml($fInfo, $n);
+    $sliderHtml .= dataInputHtml($fInfo);
     $n++;
   }
 } else {
   echo "0 results";
 }
+
+// create array of the ids to be referenced by the javascript
+$jsSliderIds = "[" . join(", ", $sliderIds) . "]";
+$jsCheckboxIds = "[" . join(", ", $checkboxIds) . "]";
 
 $conn->close();
 ?>
@@ -110,7 +118,13 @@ $conn->close();
   <link rel="stylesheet" type="text/css" href="main.css">
   <link rel="stylesheet" type="text/css" href="modalStyle.css">
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
+  <script>
+    var sliderIds = <?php echo $jsSliderIds; ?>;
+    var checkboxIds = <?php echo $jsCheckboxIds; ?>;
+  </script>
   <script src="sliders.js"></script>
+  <script src="lib/functions.js"></script>
+  <script src="health.js"></script>
 </head>
 <body>
   <div style = "height: 100%; line-height: 2em">

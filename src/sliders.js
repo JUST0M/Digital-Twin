@@ -1,14 +1,14 @@
-function updateSlider(i) {
+function updateSlider(id) {
   return function() {
-  	document.getElementById("b".concat(i)).value = this.value
+  	document.getElementById("box-".concat(id)).value = this.value
   	// Health Indicators might change canvas
   	resetImages()
   	redraw()
   };
 }
-function updateTextBox(i) {
+function updateTextBox(id) {
   return function() {
-  	document.getElementById("s".concat(i)).value = this.value
+  	document.getElementById("slider-".concat(id)).value = this.value
   	// Health Indicators might change canvas
   	resetImages()
   	redraw()
@@ -22,11 +22,12 @@ function updateCheckBox(){
 }
 
 window.onload = function(){
-	const numSliders = 8;
-	for (i = 0; i < numSliders; i++){
-		document.getElementById("s".concat(i)).oninput = updateSlider(i)
-		document.getElementById("b".concat(i)).oninput = updateTextBox(i)
-	}
+	sliderIds.forEach(function(id) {
+		document.getElementById("slider-".concat(id)).oninput = updateSlider(id)
+		document.getElementById("box-".concat(id)).oninput = updateTextBox(id)
+	});
 
-	document.getElementById("smoking").oninput = updateCheckBox()
+  checkboxIds.forEach(function(id) {
+	  document.getElementById("checkbox-".concat(id)).oninput = updateCheckBox()
+  });
 }
