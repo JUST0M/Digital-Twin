@@ -2,16 +2,16 @@ function updateSlider(i) {
   return function() {
   	document.getElementById("b".concat(i)).value = this.value
   	// Health Indicators might change canvas
-	resetImages()
-	redraw()  
+  	resetImages()
+  	redraw()
   };
 }
 function updateTextBox(i) {
   return function() {
   	document.getElementById("s".concat(i)).value = this.value
   	// Health Indicators might change canvas
-	resetImages()
-	redraw()  
+  	resetImages()
+  	redraw()
   };
 }
 function updateCheckBox(){
