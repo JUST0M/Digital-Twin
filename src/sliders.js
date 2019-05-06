@@ -21,10 +21,12 @@ function updateCheckBox(){
 	}
 }
 
-const numSliders = 8;
-for (i = 0; i < numSliders; i++){
-	document.getElementById("s".concat(i)).oninput = updateSlider(i)
-	document.getElementById("b".concat(i)).oninput = updateTextBox(i)
-}
+window.onload = function(){
+	const numSliders = 8;
+	for (i = 0; i < numSliders; i++){
+		document.getElementById("s".concat(i)).oninput = updateSlider(i)
+		document.getElementById("b".concat(i)).oninput = updateTextBox(i)
+	}
 
-document.getElementById("smoking").oninput = updateCheckBox()
+	document.getElementById("smoking").oninput = updateCheckBox()
+}
