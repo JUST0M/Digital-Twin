@@ -7,19 +7,34 @@ $green = "#00c800";
 $colours = array($red, $yellow, $green);
 
 
-// returns html for a slider
-function slider($factorData, $n) {
-    global $colours;
-    $min = $factorData["min"];
-    $max = $factorData["max"];
-    $question = $factorData["question"]; $default = $factorData["default"];
+// return data input html (either a slider or a checkbox)
+function dataInputHtml($factorData, $n) {
+  global $colours;
+  $min = $factorData["min"]; $max = $factorData["max"];
+  $dType = $factorData["type"];
+  $question = $factorData["question"]; $default = $factorData["default"];
+  $factorName = $factorData["factor"];
+  // if boolean datatype then just add a checkbox
+  if ($dType == 0) {
+    $checkboxHtml = "<tr>
+                       <td><input type=\"checkbox\" id=\"$factorName\" unchecked> $question<br/>
+                       </td>
+                     </tr>";
+    return($checkboxHtml);
+  }
+  // for int and float add a slider
+  else{
     $range = $max - $min;
     $gradientHtml = "90deg";
     foreach ($factorData["colRanges"] as $colRange) {
+      // if healthiness is null then this factor doesn't have any data in the factor_ranges table
+      // in this case we will just have an uncoloured slider
+      if($colRange["healthiness"] != null){
         $col = $colours[$colRange["healthiness"]];
         $lo = (($colRange["min"] - $min) / $range) * 100;
         $hi = (($colRange["max"] - $min) / $range) * 100;
         $gradientHtml .= ", $col $lo% $hi%";
+      }
     }
 
     $sliderHtml = "<tr>
@@ -28,7 +43,10 @@ function slider($factorData, $n) {
                      </td>
                    </tr>";
     return($sliderHtml);
+  }
 }
+
+
 
 $sliderHtml = slider("Vigorous Physical Activity (minutes per week)", 0, 300, 75, array(array("healthiness" => 0, "min" => 0, "max" => 0), array("healthiness" => 1, "min" => 90, "max" => 135), array("healthiness" => 2, "min" => 150, "max" => 300)), 1);
 
@@ -41,44 +59,46 @@ $dbname = "digital-twin";
 $conn = new mysqli($servername, $username, $password, $dbname);
 // Check connection
 if ($conn->connect_error) {
-    die("Connection failed: " . $conn->connect_error);
+  die("Connection failed: " . $conn->connect_error);
 }
 
-$sql = "SELECT f.factor_id as id, f.question as q, f.min as min, f.max as max, f.def as def, r.healthiness as healthiness, r.min as rmin, r.max as rmax, r.factor_id as id2 FROM factors f JOIN factor_ranges r ON f.factor_id = r.factor_id";
+$sql = "SELECT f.factor_id as id, f.factor as factor, f.question as q, f.min as min, f.max as max, f.def as def, f.type as t, r.healthiness as healthiness, r.min as rmin, r.max as rmax, r.factor_id as id2 FROM factors f LEFT JOIN factor_ranges r ON f.factor_id = r.factor_id";
 $result = $conn->query($sql);
 
 $sliderHtml = "";
 
 if ($result->num_rows > 0) {
-    // output data of each row
-    $factorInfo = array();
-    while($row = $result->fetch_assoc()) {
-        //echo $row["id"];
-        //have already put info in for this id so just add a colour range
-        if(in_array($row["id"], array_keys($factorInfo))){
-            echo "<script> console.log(\"adding more\") </script>";
-            array_push($factorInfo[$row["id"]]["colRanges"], array("healthiness" => $row["healthiness"], "min" => $row["rmin"], "max" => $row["rmax"]));
-        }
-        else{
-            echo "<script> console.log(\"new slider\") </script>";
-            $factorInfo[$row["id"]] = array("question" => $row["q"],
+  // output data of each row
+  $factorInfo = array();
+  while($row = $result->fetch_assoc()) {
+    //echo $row["id"];
+    //have already put info in for this id so just add a colour range
+    if(in_array($row["id"], array_keys($factorInfo))){
+      echo "<script> console.log(\"adding more\") </script>";
+      array_push($factorInfo[$row["id"]]["colRanges"], array("healthiness" => $row["healthiness"], "min" => $row["rmin"], "max" => $row["rmax"]));
+    }
+    else{
+      echo "<script> console.log(\"new slider\") </script>";
+      $factorInfo[$row["id"]] = array("factor" =? $row["factor"],
+                                      "question" => $row["q"],
                                       "min" => $row["min"],
                                       "max" => $row["max"],
                                       "default" => $row["def"],
+                                      "type" => $row["t"],
                                       "colRanges" => array(array("healthiness" => $row["healthiness"], "min" => $row["rmin"], "max" => $row["rmax"])));
 
-        }
-        //echo "id: " . $row["factor_id"]. " - factor: " . $row["factor"]. " - question: " . $row["question"]. "<br>";
     }
-    $n = 0;
-    foreach($factorInfo as $key => $fInfo){
-        $toPrint = count($factorInfo);
-        echo "<script>console.log(\"$toPrint\");</script>";
-        $sliderHtml .= slider($fInfo, $n);
-        $n++;
-    }
+    //echo "id: " . $row["factor_id"]. " - factor: " . $row["factor"]. " - question: " . $row["question"]. "<br>";
+  }
+  $n = 0;
+  foreach($factorInfo as $key => $fInfo){
+    $toPrint = count($factorInfo);
+    echo "<script>console.log(\"$toPrint\");</script>";
+    $sliderHtml .= dataInputHtml($fInfo, $n);
+    $n++;
+  }
 } else {
-    echo "0 results";
+  echo "0 results";
 }
 
 $conn->close();
