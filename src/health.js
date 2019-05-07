@@ -19,7 +19,7 @@ function calcScore(scoreName){
 }
 
 // given information about a risk factor, calculates whether it meets required threshold(s)
-factorIsGood(factorInfo){
+function factorIsGood(factorInfo){
   var factorValue;
   // boolean
   if (factorInfo.type == 0) {
@@ -40,7 +40,7 @@ factorIsGood(factorInfo){
 }
 
 // given information about a risk score, calculates whether it meets required threshold(s)
-scoreIsGood(scoreInfo){
+function scoreIsGood(scoreInfo){
   var scoreValue = calcScore(scoreInfo.name);
   if (scoreInfo.withinRange){
     return(factorValue >= scoreInfo.min && scoreValue <= scoreInfo.max)
@@ -51,7 +51,7 @@ scoreIsGood(scoreInfo){
 }
 
 // given the name of a score and a value, use database values to return tertile
-calcTertile(scoreName, scoreValue){
+function calcTertile(scoreName, scoreValue){
   var tertile
   if (scoreValue <= riskScoreInfo.scoreName.terileLow){tertile = 0}
   else if (scoreValue <= riskScoreInfo.scoreName.terileHigh){tertile = 1}
