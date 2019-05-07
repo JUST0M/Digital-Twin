@@ -1,62 +1,67 @@
-function metThreshold(healthPoints){
-  healthPoints.push(1)
+
+
+// given the name of score, returns the value of that score
+// uses database results to determine how the score is calculated
+function calcScore(scoreName){
+  var score = 0;
+  // for each factor that contributes towards this score
+  // check if the factor meets the database-specified requirements
+  riskScoreInfo.scoreName.factors.forEach(function(factorInfo){
+    score += factorIsGood(factorInfo) ? 1 : 0;
+  });
+  // for each risk score that this risk score depends on
+  // check if the risk score meets the database-specified requirements
+  riskScoreInfo.scoreName.scores.forEach(function(scoreInfo){
+    score += scoreIsGood(scoreInfo) ? 1 : 0;
+  });
+
+  return(score);
 }
-function missedThreshold(healthPoints){
-  healthPoints.push(0)
-}
 
-// Calculates Cardiovascular Health
-// Returns a value from 0 - 8
-function getCardiovascularHealth(){
-  // Array containing 1s and 0s detailing whether each of the study's thresholds are met
-  var healthPoints = []
-
-  // The following lines *should* encode the
-  // Cardiovascular Health Indicators
-  var bmi = parseInt(document.getElementById('slider-bmi').value, 10)
-  var vpa = parseInt(document.getElementById('slider-activity').value, 10)
-  // var pvo2 =
-  var alc = parseInt(document.getElementById('slider-alcohol').value, 10)
-  var smo = $('#checkbox-smoking').is(":checked") // "have you been a smoker in the past six months?"
-  var asbp = parseInt(document.getElementById('slider-systolic').value, 10)
-  var adbp = parseInt(document.getElementById('slider-diastolic').value, 10)
-  var pedbp = parseInt(document.getElementById('slider-exercise_diastolic').value, 10)
-  var cho = parseInt(document.getElementById('slider-cholesterol').value, 10)
-  var glu = parseInt(document.getElementById('slider-glucose').value, 10)
-
-  if (bmi < 25) {metThreshold(healthPoints)} else {missedThreshold(healthPoints)}
-  if (vpa >= 75) {metThreshold(healthPoints)} else {missedThreshold(healthPoints)}
-  if (alc < 8) {metThreshold(healthPoints)} else {missedThreshold(healthPoints)}
-  if (!smo) {metThreshold(healthPoints)} else {missedThreshold(healthPoints)}
-  if (asbp < 130 && adbp < 80) {metThreshold(healthPoints)} else {missedThreshold(healthPoints)}
-  if (pedbp < 90) {metThreshold(healthPoints)} else {missedThreshold(healthPoints)}
-  if (cho < 200) {metThreshold(healthPoints)} else {missedThreshold(healthPoints)}
-  if (glu < 100) {metThreshold(healthPoints)} else {missedThreshold(healthPoints)}
-
-  // Patient's score
-
-  var healthIndex = 0
-
-  for (i = 0; i < healthPoints.length; i ++) {
-    healthIndex += healthPoints[i]
+// given information about a risk factor, calculates whether it meets required threshold(s)
+factorIsGood(factorInfo){
+  var factorValue;
+  // boolean
+  if (factorInfo.type == 0) {
+    factorValue = document.getElementById(factorInfo.name).checked ? 1 : 0;
   }
-  return healthIndex
+  else {
+    factorValue = document.getElementById(factorInfo.name).value;
+  }
+
+  // factorData.withinRange determines whether the factor should lie within or outside
+  // the range specified by min and max
+  if (factorInfo.withinRange){
+    return(factorValue >= factorInfo.min && factorValue <= factorInfo.max)
+  }
+  else{
+    return(factorValue <= factorInfo.min || factorValue >= factorInfo.max)
+  }
 }
 
-// Calculates heart for each part of the body
-function getBodyHealth(){
-  return getCardiovascularHealth()
+// given information about a risk score, calculates whether it meets required threshold(s)
+scoreIsGood(scoreInfo){
+  var scoreValue = calcScore(scoreInfo.name);
+  if (scoreInfo.withinRange){
+    return(factorValue >= scoreInfo.min && scoreValue <= scoreInfo.max)
+  }
+  else{
+    return(scoreValue <= scoreInfo.min || scoreValue >= scoreInfo.max)
+  }
 }
 
-function getHeartHealth(){
-  return getCardiovascularHealth()
+// given the name of a score and a value, use database values to return tertile
+calcTertile(scoreName, scoreValue){
+  var tertile
+  if (scoreValue <= riskScoreInfo.scoreName.terileLow){tertile = 0}
+  else if (scoreValue <= riskScoreInfo.scoreName.terileHigh){tertile = 1}
+  else {tertile = 2}
+  // reverse tertiles if high score is bad
+  if (!riskScoreInfo.scoreName.highScoreGood) {tertile = 2 - tertile}
+  return tertile;
 }
 
-function getBrainHealth(){
-  var healthIndex = getCardiovascularHealth()
-  console.log("Brain Health: " + healthIndex)
-  return healthIndex
-}
+const colours = ["red", "orange", "green"];
 
 // Colour indicator for the body parts
 function getBodyColour(){
@@ -66,16 +71,7 @@ function getHeartColour(){
   return getBrainColour() // Tentatively, only brain has a score indicator
 }
 function getBrainColour(){
-  var healthIndex = getBrainHealth()
-
-  // Split into tertiles by the JAMA paper
-  if (healthIndex < 6){ // Lower tertile - 0 to 5
-    return "red"
-  }
-  else if (healthIndex < 7){ // Middle tertile - 6
-    return "orange"
-  }
-  else{ // Upper tertile - 7 to 8
-    return "green"
-  }
+  var brainScore = calcScore('brain_score');
+  var tertile = calcTertile('brain_score', brainScore);
+  return colours[tertile];
 }
