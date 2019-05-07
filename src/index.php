@@ -145,7 +145,7 @@ foreach($allScoresInfo as $scoreId => $scoreInfo){
   foreach($scoreInfo["factors"] as $factorName => $factorInfo){
     $type = $factorInfo["type"]; $min = $factorInfo["min"]; $max = $factorInfo["max"];
     $withinRange = $factorInfo["withinRange"];
-    array_push($factorsArray, "{name: \"$factorName\", type: $type, min: $min, max: $max, withinRange: $withinRange}");
+    array_push($factorsArray, "{\"name\": \"$factorName\", \"type\": $type, \"min\": $min, \"max\": $max, \"withinRange\": $withinRange}");
   }
   $factorsJs = "[" . join(", ", $factorsArray) . "]";
 
@@ -153,7 +153,7 @@ foreach($allScoresInfo as $scoreId => $scoreInfo){
   foreach($scoreInfo["scores"] as $scoreName2 => $scoreInfo2){
     $min = $scoreInfo2["min"]; $max = $scoreInfo2["max"];
     $withinRange = $scoreInfo2["withinRange"];
-    array_push($scoresArray, "{name: \"$scoreName2\", min: $min, max: $max, withinRange: $withinRange}");
+    array_push($scoresArray, "{\"name\": \"$scoreName2\", \"min\": $min, \"max\": $max, \"withinRange\": $withinRange}");
   }
   $scoresJs = "[" . join(", ", $scoresArray) . "]";
 
@@ -161,7 +161,7 @@ foreach($allScoresInfo as $scoreId => $scoreInfo){
   $tertileHighJs = $scoreInfo["tertileHigh"];
   $highScoreGoodJs = $scoreInfo["highScoreGood"];
 
-  $riskScoreInfoJs = "{factors: $factorsJs, scores: $scoresJs, tertileLow: $tertileLowJs, tertileHigh: $tertileHighJs, highScoreGood: $highScoreGoodJs}";
+  $riskScoreInfoJs = "{\"factors\": $factorsJs, \"scores\": $scoresJs, \"tertileLow\": $tertileLowJs, \"tertileHigh\": $tertileHighJs, \"highScoreGood\": $highScoreGoodJs}";
   array_push($riskScoreInfosJs, "\"$scoreName\": $riskScoreInfoJs");
 }
 
