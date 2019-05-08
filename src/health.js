@@ -91,6 +91,28 @@ function getBrainColour(){
   return colours[tertile];
 }
 
+// Text options for the body parts
+function getBodyText(){
+  return getBrainText() // Tentatively, only brain has a score indicator
+}
+function getHeartText(){
+  return getBrainText() // Tentatively, only brain has a score indicator
+}
+function getBrainText(){
+  var healthIndex = getBrainHealth()
+
+  // Split into tertiles by the JAMA paper
+  if (healthIndex < 6){ // Lower tertile - 0 to 5
+    return "Low health text"
+  }
+  else if (healthIndex < 7){ // Middle tertile - 6
+    return "Mid health text"
+  }
+  else{ // Upper tertile - 7 to 8
+    return "High health text"
+  }
+}
+
 
 // TODO: currently won't work for the blood pressure ones since these use the dependent risk score thing...
 // solution to this will take a bit of effort
