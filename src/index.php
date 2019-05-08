@@ -243,6 +243,8 @@ $jsText = "<script>
         </div>
         <div class="modal-body">
           <p>Brain modal text...</p>
+          <p>The thing you most need to improve on is: </p>
+          <p id="improveBrain"></p>
         </div>
       </div>
     </div>

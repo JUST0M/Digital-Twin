@@ -48,6 +48,23 @@ function scoreIsGood(scoreInfo){
   }
 }
 
+// calculates the percentage difference between a factor's value and what is
+// considered healthy (given by a range, min to max)
+// withinRange indicates whether 'healthy' is considered inside or outside the given range
+function percentDiffToHealthy(factorValue, min, max, withinRange){
+  if (withinRange){
+    if (factorValue >= min && factorValue <= max) {return(0)}
+    else if(factorValue < min) {return((min - factorValue) / min)}
+    else {return((factorValue - max) / max)}
+  }
+
+  else{
+    if (factorValue <= min || factorValue >= max) {return(0)}
+    else if(factorValue - min < max - factorValue) {return((factorValue - min) / min)}
+    else {return((max - factorValue) / max)}
+  }
+}
+
 // given the name of a score and a value, use database values to return tertile
 function calcTertile(scoreName, scoreValue){
   var tertile
@@ -72,4 +89,29 @@ function getBrainColour(){
   var brainScore = calcScore("brain_score");
   var tertile = calcTertile("brain_score", brainScore);
   return colours[tertile];
+}
+
+
+// TODO: currently won't work for the blood pressure ones since these use the dependent risk score thing...
+// solution to this will take a bit of effort
+function updateImprovementFactor(scoreName, elemId){
+  console.log("doing the ting");
+  var worstDiff = 0;
+  var worstFactor = "none";
+  for (var i = 0; i < riskScoreInfo[scoreName].factors.length; i++) {
+    var factorInfo = riskScoreInfo[scoreName].factors[i];
+    // just give bad checkbox's a score of 0.5 for now...
+    // percentDiffToHealthy would give a score of 1 and this seems harsh
+    var score;
+    if (factorInfo.type == 0) {
+      score = (document.getElementById("checkbox-".concat(factorInfo.name)).checked ? 1 : 0) == factorInfo.min ? 0 : 0.5;
+    }
+    else{
+      var factorVal = document.getElementById("slider-".concat(factorInfo.name)).value;
+      score = percentDiffToHealthy(factorVal, factorInfo.min, factorInfo.max, factorInfo.withinRange);
+    }
+    if (score > worstDiff) {worstDiff = score; worstFactor = factorInfo.name}
+  }
+
+  document.getElementById(elemId).innerHTML = worstFactor;
 }

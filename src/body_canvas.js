@@ -78,6 +78,7 @@ function brainClicked(){
   bodyModal.style.display = "none"; //Hide the body modal if it is open
   heartModal.style.display = "none"; //Hide the heart modal if it is open
   brainModal.style.display = "block"; //Display brain modal
+  updateImprovementFactor("brain_score", "improveBrain")
 }
 function heartClicked(){
   bodyModal.style.display = "none"; //Hide the body modal if it is open
@@ -113,7 +114,7 @@ function handleWindowResize(event){
   c.clearRect(0, 0, canvas.width, canvas.height);
   resizeCanvas()
   resetImages()
-  redraw()  
+  redraw()
 }
 
 function handleMouseMove(event){
@@ -139,15 +140,14 @@ function handleMouseClick(event){
   if (isOnBrain(mouse.x, mouse.y)) brainClicked()
   if (isOnHeart(mouse.x, mouse.y)) heartClicked()
 }
- 
+
 
 // Listen for events
 window.addEventListener('resize', handleWindowResize)
 window.addEventListener('mousemove', handleMouseMove)
 window.addEventListener('click', handleMouseClick)
 
-var cardiovascularHealth = getCardiovascularHealth()
+//var cardiovascularHealth = getCardiovascularHealth()
 
-console.log(cardiovascularHealth)
+//console.log(cardiovascularHealth)
 // brain colour
-
