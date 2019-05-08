@@ -23,7 +23,7 @@ if (!empty($_POST) && ($_POST["signin"] == "Log in")){ // Signup occurred - Ther
 
     $result = $conn->query($sql);
     
-    if ($result->num_rows != 0){ // Account was created before
+    if ($result->num_rows == 0){
         echo "<script>alert(\"No accounts exist with those credentials. Please try again.\")</script>";
     }
     else{
