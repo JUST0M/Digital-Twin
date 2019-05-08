@@ -25,6 +25,7 @@ function dataInputHtml($factorData) {
                      </tr>";
     return($checkboxHtml);
   }
+
   // for int and float add a slider
   else{
     array_push($sliderIds, "\"$factorName\"");
@@ -41,9 +42,12 @@ function dataInputHtml($factorData) {
       }
     }
 
+    // dType of 1 means int, 2 means float
+    $step = $dType == 1 ? 1 : 0.1;
+
     $sliderHtml = "<tr>
                      <td>$question: <input type=\"number\" min=\"$min\" max=\"$max\" value=\"$default\" id=\"box-$factorName\"><br/>
-                       <input type=\"range\" min=\"$min\" max=\"$max\" value=\"$default\" class=\"slider\" id=\"slider-$factorName\" style=\"background:linear-gradient($gradientHtml)\">
+                       <input type=\"range\" min=\"$min\" max=\"$max\" step=\"$step\" value=\"$default\" class=\"slider\" id=\"slider-$factorName\" style=\"background:linear-gradient($gradientHtml)\">
                      </td>
                    </tr>";
     return($sliderHtml);
