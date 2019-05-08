@@ -23,7 +23,7 @@ if (!empty($_POST) && ($_POST["signup"] == "Register")){ // Signup occurred - Th
     $result = $conn->query($sql);
 
     if ($result->num_rows != 0){ // Account was created before
-           echo "<script>alert(\"The account with the same redentials has been created before. Please try again.\")</script>";
+           echo "<script>alert(\"The account with the same credentials has been created before. Please try again.\")</script>";
     }
     else{
         // Do some kind of hashing for the password

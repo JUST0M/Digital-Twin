@@ -29,7 +29,6 @@ if (!empty($_POST) && ($_POST["signin"] == "Log in")){ // Signup occurred - Ther
     else{
         echo "<script>alert(\"Congrats on logging in. \")</script>";
         echo "<script>window.location.href = \"../index.php\"</script>";
-        
     }
     $conn->close();
 }
