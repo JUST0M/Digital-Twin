@@ -1,5 +1,9 @@
 function submitSignup(){
-	if ($('#pass').val() != $('#re_pass').val()){
+	if (!$('#pass').val() || !$('#name').val() || !$('#email').val()){
+		event.preventDefault();
+		alert('Fields may not be empty');
+	}
+	else if ($('#pass').val() != $('#re_pass').val()){
 		event.preventDefault();
 		alert('Passwords must be matching');
 	}
