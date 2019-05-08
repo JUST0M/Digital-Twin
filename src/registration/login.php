@@ -1,3 +1,39 @@
+<?php
+if (!empty($_POST) && ($_POST["signin"] == "Log in")){ // Signup occurred - There's probably a better way to do this
+    $servername = "localhost";
+    $username = "master";
+    $password = "D1g1talTw1n";
+    $dbname = "digital-twin";
+
+    // Create connection
+    $conn = new mysqli($servername, $username, $password, $dbname);
+    // Check connection
+    if ($conn->connect_error) {
+      die("Connection failed: " . $conn->connect_error);
+    }
+
+    $userEmail = htmlspecialchars($_POST["your_email"]);
+    $userPassword = htmlspecialchars($_POST["your_pass"]);
+
+    $hashedPassword = hash('sha256', $userPassword); 
+
+    $sql = "SELECT Name, Email, Password 
+            FROM Users 
+            WHERE Password = \"" . $hashedPassword . "\" AND Email = \"" . $userEmail . "\"";
+
+    $result = $conn->query($sql);
+    
+    if ($result->num_rows != 0){ // Account was created before
+        echo "<script>alert(\"No accounts exist with those credentials. Please try again.\")</script>";
+    }
+    else{
+        echo "<script>alert(\"Congrats on logging in. \")</script>";
+        echo "<script>window.location.href = \"../index.php\"</script>";
+        
+    }
+    $conn->close();
+}
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -22,8 +58,8 @@
             <div class="container">
                 <div class="signin-content">
                     <div class="signin-image">
-                        <figure><img src="images/signin-image.jpg" alt="sing up image"></figure>
-                        <a href="signup.html" class="signup-image-link">Create an account</a>
+                        <figure><img src="images/signin-image.jpg" alt="sign up image"></figure>
+                        <a href="signup.php" class="signup-image-link">Create an account</a>
                     </div>
 
                     <div class="signin-form">

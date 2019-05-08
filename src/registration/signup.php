@@ -1,3 +1,50 @@
+<?php
+if (!empty($_POST) && ($_POST["signup"] == "Register")){ // Signup occurred - There's probably a better way to do this
+    $servername = "localhost";
+    $username = "master";
+    $password = "D1g1talTw1n";
+    $dbname = "digital-twin";
+
+    // Create connection
+    $conn = new mysqli($servername, $username, $password, $dbname);
+    // Check connection
+    if ($conn->connect_error) {
+      die("Connection failed: " . $conn->connect_error);
+    }
+
+    $userName = htmlspecialchars($_POST["name"]);
+    $userEmail = htmlspecialchars($_POST["email"]);
+    $userPassword = htmlspecialchars($_POST["pass"]);
+
+    $sql = "SELECT Name, Email, Password 
+            FROM Users 
+            WHERE Name = \"" . $userName . "\" AND Email = \"" . $userEmail . "\"";
+
+    $result = $conn->query($sql);
+
+    if ($result->num_rows != 0){ // Account was created before
+           echo "<script>alert(\"The account with the same redentials has been created before. Please try again.\")</script>";
+    }
+    else{
+        // Do some kind of hashing for the password
+        $hashedPassword = hash('sha256', $userPassword); 
+        $createUserSql = "INSERT INTO Users 
+                          (Name, Email, Password) 
+                          VALUES 
+                          (\"" . $userName . "\", \"" . $userEmail . "\", \"" . $hashedPassword . "\")";
+        $flag = $conn->query($createUserSql);
+
+        if($flag){
+            echo "<script>alert(\"Your account has been made. \")</script>";
+            echo "<script> window.location.href = \"login.php\"</script>";
+        }
+        else{
+            echo "<script>alert(\"Account registration failed. Please try again.\")</script>";
+        }
+    }
+    $conn->close();
+}
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -23,7 +70,7 @@
                 <div class="signup-content">
                     <div class="signup-form">
                         <h2 class="form-title">Sign up</h2>
-                        <form method="POST" class="register-form" id="register-form" onsubmit="event.preventDefault(); validateSignup();">
+                        <form method="POST" class="register-form" id="register-form" onsubmit="submitSignup()">
                             <div class="form-group">
                                 <label for="name"><i class="zmdi zmdi-account material-icons-name"></i></label>
                                 <input type="text" name="name" id="name" placeholder="Your Name"/>
@@ -51,7 +98,7 @@
                     </div>
                     <div class="signup-image">
                         <<figure><img src="images/signup-image.jpg" alt="sign up image"></figure>
-                        <a href="login.html" class="signup-image-link">I am already member</a>
+                        <a href="login.php" class="signup-image-link">I am already member</a>
                     </div>
                 </div>
             </div>

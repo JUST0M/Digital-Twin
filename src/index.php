@@ -179,6 +179,8 @@ $jsText = "<script>
 
 ?>
 
+<script>window.location.href = "/beta/src/registration/signup.php"</script>
+
 
 <html lang="en"; style="height:100%">
 <head>
