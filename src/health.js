@@ -99,7 +99,7 @@ function getHeartText(){
   return getBrainText() // Tentatively, only brain has a score indicator
 }
 function getBrainText(){
-  var healthIndex = getBrainHealth()
+  var healthIndex = calcScore("brain_score");
 
   // Split into tertiles by the JAMA paper
   if (healthIndex < 6){ // Lower tertile - 0 to 5
