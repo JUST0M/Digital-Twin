@@ -120,6 +120,7 @@ function updateImprovementFactor(scoreName, elemId){
   console.log("doing the ting");
   var worstDiff = 0;
   var worstFactor = "none";
+  var url = "";
   for (var i = 0; i < riskScoreInfo[scoreName].factors.length; i++) {
     var factorInfo = riskScoreInfo[scoreName].factors[i];
     // just give bad checkbox's a score of 0.5 for now...
@@ -132,8 +133,13 @@ function updateImprovementFactor(scoreName, elemId){
       var factorVal = document.getElementById("slider-".concat(factorInfo.name)).value;
       score = percentDiffToHealthy(factorVal, factorInfo.min, factorInfo.max, factorInfo.withinRange);
     }
-    if (score > worstDiff) {worstDiff = score; worstFactor = factorInfo.name}
+    if (score > worstDiff) {
+      worstDiff = score; worstFactor = factorInfo.name;
+      if (factorInfo.infoLink != null){url = factorInfo.infoLink;}
+    }
   }
 
+
   document.getElementById(elemId).innerHTML = worstFactor;
+  document.getElementById(elemId).href = url;
 }

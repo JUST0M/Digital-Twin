@@ -109,7 +109,7 @@ else {
 $jsSliderIds = "[" . join(", ", $sliderIds) . "]";
 $jsCheckboxIds = "[" . join(", ", $checkboxIds) . "]";
 
-$sql = "SELECT risk_scores.score_id as id, name, high_score_good as highScoreGood, tertile_low as tertileLow, tertile_high as tertileHigh, factor as factorName, data_type as type, risk_factors.min as min, risk_factors.max as max, inside_range as withinRange FROM risk_factors JOIN risk_scores ON risk_scores.score_id = risk_factors.score_id JOIN factors ON risk_factors.factor_id = factors.factor_id";
+$sql = "SELECT risk_scores.score_id as id, name, high_score_good as highScoreGood, tertile_low as tertileLow, tertile_high as tertileHigh, factor as factorName, data_type as type, info_link, risk_factors.min as min, risk_factors.max as max, inside_range as withinRange FROM risk_factors JOIN risk_scores ON risk_scores.score_id = risk_factors.score_id JOIN factors ON risk_factors.factor_id = factors.factor_id";
 $result = $conn->query($sql);
 
 if ($result->num_rows > 0) {
@@ -117,14 +117,14 @@ if ($result->num_rows > 0) {
   while($row = $result->fetch_assoc()) {
     //have already put info in for this score so just add a factor
     if(in_array($row["id"], array_keys($allScoresInfo))){
-      $allScoresInfo[$row["id"]]["factors"][$row["factorName"]] = array("type" => $row["type"], "min" => $row["min"], "max" => $row["max"], "withinRange" => $row["withinRange"]);
+      $allScoresInfo[$row["id"]]["factors"][$row["factorName"]] = array("type" => $row["type"], "infoLink" => $row["info_link"], "min" => $row["min"], "max" => $row["max"], "withinRange" => $row["withinRange"]);
     }
     else{
       $allScoresInfo[$row["id"]] = array( "name" => $row["name"],
                                       "highScoreGood" => $row["highScoreGood"],
                                       "tertileLow" => $row["tertileLow"],
                                       "tertileHigh" => $row["tertileHigh"],
-                                      "factors" => array($row["factorName"] => array("type" => $row["type"], "min" => $row["min"], "max" => $row["max"], "withinRange" => $row["withinRange"])),
+                                      "factors" => array($row["factorName"] => array("type" => $row["type"], "infoLink" => $row["info_link"], "min" => $row["min"], "max" => $row["max"], "withinRange" => $row["withinRange"])),
                                       "scores" => array());
     }
   }
@@ -148,8 +148,9 @@ foreach($allScoresInfo as $scoreId => $scoreInfo){
   $factorsArray = array();
   foreach($scoreInfo["factors"] as $factorName => $factorInfo){
     $type = $factorInfo["type"]; $min = $factorInfo["min"]; $max = $factorInfo["max"];
+    $infoLink = $factorInfo["infoLink"];
     $withinRange = $factorInfo["withinRange"];
-    array_push($factorsArray, "{name: \"$factorName\", type: $type, min: $min, max: $max, withinRange: $withinRange}");
+    array_push($factorsArray, "{name: \"$factorName\", type: $type, min: $min, max: $max, withinRange: $withinRange, infoLink: \"$infoLink\"}");
   }
   $factorsJs = "[" . join(", ", $factorsArray) . "]";
 
@@ -244,7 +245,7 @@ $jsText = "<script>
         <div class="modal-body">
           <p id="brainModalText">Brain modal text...</p>
           <p>The thing you most need to improve on is: </p>
-          <p id="improveBrain"></p>
+          <a target="_blank" rel="noopener noreferrer" id="improveBrain"></a>
         </div>
       </div>
     </div>
