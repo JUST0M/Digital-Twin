@@ -229,7 +229,7 @@ $jsText = "<script>
           <h2>Heart Modal</h2>
         </div>
         <div class="modal-body">
-          <p>Heart modal text...</p>
+          <p id="heartModalText">Heart modal text...</p>
         </div>
       </div>
     </div>
@@ -242,7 +242,7 @@ $jsText = "<script>
           <h2>Brain Modal</h2>
         </div>
         <div class="modal-body">
-          <p>Brain modal text...</p>
+          <p id="brainModalText">Brain modal text...</p>
           <p>The thing you most need to improve on is: </p>
           <p id="improveBrain"></p>
         </div>
@@ -257,7 +257,7 @@ $jsText = "<script>
           <h2>Body Modal</h2>
         </div>
         <div class="modal-body">
-          <p>Body modal text...</p>
+          <p id="bodyModalText">Body modal text...</p>
         </div>
       </div>
     </div>

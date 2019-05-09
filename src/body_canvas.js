@@ -1,12 +1,19 @@
 //Ben: Fetch appropriate elements for picture popups
 var heartModal = document.getElementById('heartModal');
 var heartSpan = document.getElementsByClassName("close")[0];
+var heartHeader = document.getElementsByClassName("modal-header")[0];
+var heartText = document.getElementById("heartModalText");
+
 
 var brainModal = document.getElementById('brainModal');
 var brainSpan = document.getElementsByClassName("close")[1];
+var brainHeader = document.getElementsByClassName("modal-header")[1];
+var brainText = document.getElementById("brainModalText");
 
 var bodyModal = document.getElementById('bodyModal');
 var bodySpan = document.getElementsByClassName("close")[2];
+var bodyHeader = document.getElementsByClassName("modal-header")[2];
+var bodyText = document.getElementById("bodyModalText");
 
 var canvas = document.getElementById('humanCanvas');
 
@@ -75,21 +82,28 @@ function isOnHeart(x, y) {
 
 // actions to take if parts of body are clicked
 function brainClicked(){
+  brainText.innerHTML = getBrainText()
+  brainHeader.style.backgroundColor = getBrainColour()//background-color?
   bodyModal.style.display = "none"; //Hide the body modal if it is open
   heartModal.style.display = "none"; //Hide the heart modal if it is open
   brainModal.style.display = "block"; //Display brain modal
   updateImprovementFactor("brain_score", "improveBrain")
 }
 function heartClicked(){
+  heartText.innerHTML = getHeartText()
+  heartHeader.style.backgroundColor = getHeartColour()//background-color?
   bodyModal.style.display = "none"; //Hide the body modal if it is open
   brainModal.style.display = "none"; //Hide the brain modal if it is open
   heartModal.style.display = "block"; //Display heart modal
 }
 function bodyClicked(){
+  bodyText.innerHTML = getBodyText()
+  bodyHeader.style.backgroundColor = getBodyColour()//background-color?
   brainModal.style.display = "none"; //Hide the brain modal if it is open
   heartModal.style.display = "none"; //Hide the heart modal if it is open
   bodyModal.style.display = "block"; //Display body modal
 }
+
 
 // Ben: When the user clicks on *span (x), close the modal
 heartSpan.onclick = function() {
