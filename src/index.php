@@ -20,7 +20,7 @@ function dataInputHtml($factorData) {
   if ($dType == 0) {
     array_push($checkboxIds, "\"$factorName\"");
     $checkboxHtml = "<tr>
-                       <td><input type=\"checkbox\" id=\"checkbox-$factorName\" unchecked> $question<br/>
+                       <td><input type=\"checkbox\" id=\"checkbox-$factorName\" $default> $question<br/>
                        </td>
                      </tr>";
     return($checkboxHtml);
@@ -55,9 +55,6 @@ function dataInputHtml($factorData) {
 }
 
 
-
-// $sliderHtml = slider("Vigorous Physical Activity (minutes per week)", 0, 300, 75, array(array("healthiness" => 0, "min" => 0, "max" => 0), array("healthiness" => 1, "min" => 90, "max" => 135), array("healthiness" => 2, "min" => 150, "max" => 300)), 1);
-
 $servername = "localhost";
 $username = "master";
 $password = "D1g1talTw1n";
@@ -87,7 +84,8 @@ if ($result->num_rows > 0) {
                                       "question" => $row["q"],
                                       "min" => $row["min"],
                                       "max" => $row["max"],
-                                      "default" => $row["def"],
+                                      //"default" => $row["def"],
+                                      "default" => (isset($_POST[$row["factor"]]) && $_POST[$row["factor"]] != null) ? $_POST[$row["factor"]] : $row["def"],
                                       "type" => $row["t"],
                                       "colRanges" => array(array("healthiness" => $row["healthiness"], "min" => $row["rmin"], "max" => $row["rmax"])));
 
