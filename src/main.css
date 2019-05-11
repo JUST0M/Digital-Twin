@@ -25,9 +25,8 @@ table {
   position:relative;
 }
 #table-scroll {
-  height:800px;
+  height:100%;
   overflow:auto;
-  margin-top:20px;
 }
 #table-wrapper table {
   width:100%;
@@ -99,7 +98,7 @@ table {
   text-align: center;
   padding: 5px 0;
   border-radius: 6px;
- 
+
   /* Position the tooltip text - see examples below! */
   position: absolute;
   z-index: 1;
