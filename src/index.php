@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <?php
+include "lib/conn.php"
 
 if (!isset($_POST["UserId"])){
   header('Location: registration/login.php');
@@ -58,20 +59,10 @@ function dataInputHtml($factorData) {
   }
 }
 
-
-$servername = "localhost";
-$username = "master";
-$password = "D1g1talTw1n";
-$dbname = "digital-twin";
-
-// Create connection
-$conn = new mysqli($servername, $username, $password, $dbname);
-// Check connection
-if ($conn->connect_error) {
-  die("Connection failed: " . $conn->connect_error);
-}
-
-$sql = "SELECT f.factor_id as id, f.factor as factor, f.question as q, f.min as min, f.max as max, f.def as def, f.data_type as t, r.healthiness as healthiness, r.min as rmin, r.max as rmax FROM factors f LEFT JOIN factor_ranges r ON f.factor_id = r.factor_id";
+$sql = "SELECT f.factor_id as id, f.factor as factor, f.question as q, f.min as min, f.max as max, f.def as def, f.data_type as t, r.healthiness as healthiness, r.min as rmin, r.max as rmax 
+        FROM factors f 
+        LEFT JOIN factor_ranges r 
+        ON f.factor_id = r.factor_id";
 $result = $conn->query($sql);
 
 $sliderHtml = "";
@@ -111,7 +102,12 @@ else {
 $jsSliderIds = "[" . join(", ", $sliderIds) . "]";
 $jsCheckboxIds = "[" . join(", ", $checkboxIds) . "]";
 
-$sql = "SELECT risk_scores.score_id as id, name, high_score_good as highScoreGood, tertile_low as tertileLow, tertile_high as tertileHigh, factor as factorName, data_type as type, info_link, risk_factors.min as min, risk_factors.max as max, inside_range as withinRange FROM risk_factors JOIN risk_scores ON risk_scores.score_id = risk_factors.score_id JOIN factors ON risk_factors.factor_id = factors.factor_id";
+$sql = "SELECT risk_scores.score_id as id, name, high_score_good as highScoreGood, tertile_low as tertileLow, tertile_high as tertileHigh, factor as factorName, data_type as type, info_link, risk_factors.min as min, risk_factors.max as max, inside_range as withinRange 
+        FROM risk_factors 
+        JOIN risk_scores 
+        ON risk_scores.score_id = risk_factors.score_id 
+        JOIN factors 
+        ON risk_factors.factor_id = factors.factor_id";
 $result = $conn->query($sql);
 
 if ($result->num_rows > 0) {
@@ -126,13 +122,21 @@ if ($result->num_rows > 0) {
                                       "highScoreGood" => $row["highScoreGood"],
                                       "tertileLow" => $row["tertileLow"],
                                       "tertileHigh" => $row["tertileHigh"],
-                                      "factors" => array($row["factorName"] => array("type" => $row["type"], "infoLink" => $row["info_link"], "min" => $row["min"], "max" => $row["max"], "withinRange" => $row["withinRange"])),
+                                      "factors" => array($row["factorName"] => 
+                                                          array("type" => $row["type"], 
+                                                                "infoLink" => $row["info_link"], 
+                                                                "min" => $row["min"], 
+                                                                "max" => $row["max"], 
+                                                                "withinRange" => $row["withinRange"])),
                                       "scores" => array());
     }
   }
 }
 
-$sql = "SELECT rsd.score_id as id, name as score2, rsd.min as min, rsd.max as max, inside_range as withinRange  FROM risk_score_dependencies AS rsd JOIN risk_scores ON risk_scores.score_id = rsd.score_dependency_id;";
+$sql = "SELECT rsd.score_id as id, name as score2, rsd.min as min, rsd.max as max, inside_range as withinRange  
+        FROM risk_score_dependencies AS rsd 
+        JOIN risk_scores 
+        ON risk_scores.score_id = rsd.score_dependency_id;";
 $result = $conn->query($sql);
 
 if ($result->num_rows > 0) {
@@ -152,7 +156,12 @@ foreach($allScoresInfo as $scoreId => $scoreInfo){
     $type = $factorInfo["type"]; $min = $factorInfo["min"]; $max = $factorInfo["max"];
     $infoLink = $factorInfo["infoLink"];
     $withinRange = $factorInfo["withinRange"];
-    array_push($factorsArray, "{name: \"$factorName\", type: $type, min: $min, max: $max, withinRange: $withinRange, infoLink: \"$infoLink\"}");
+    array_push($factorsArray, "{name: \"$factorName\", 
+                                type: $type, 
+                                min: $min, 
+                                max: $max, 
+                                withinRange: $withinRange, 
+                                infoLink: \"$infoLink\"}");
   }
   $factorsJs = "[" . join(", ", $factorsArray) . "]";
 
@@ -160,7 +169,10 @@ foreach($allScoresInfo as $scoreId => $scoreInfo){
   foreach($scoreInfo["scores"] as $scoreName2 => $scoreInfo2){
     $min = $scoreInfo2["min"]; $max = $scoreInfo2["max"];
     $withinRange = $scoreInfo2["withinRange"];
-    array_push($scoresArray, "{name: \"$scoreName2\", min: $min, max: $max, withinRange: $withinRange}");
+    array_push($scoresArray, "{name: \"$scoreName2\", 
+                               min: $min, 
+                               max: $max, 
+                               withinRange: $withinRange}");
   }
   $scoresJs = "[" . join(", ", $scoresArray) . "]";
 
@@ -168,7 +180,11 @@ foreach($allScoresInfo as $scoreId => $scoreInfo){
   $tertileHighJs = $scoreInfo["tertileHigh"];
   $highScoreGoodJs = $scoreInfo["highScoreGood"];
 
-  $riskScoreInfoJs = "{factors: $factorsJs, scores: $scoresJs, tertileLow: $tertileLowJs, tertileHigh: $tertileHighJs, highScoreGood: $highScoreGoodJs}";
+  $riskScoreInfoJs = "{ factors: $factorsJs, 
+                        scores: $scoresJs, 
+                        tertileLow: $tertileLowJs, 
+                        tertileHigh: $tertileHighJs, 
+                        highScoreGood: $highScoreGoodJs}";
   array_push($riskScoreInfosJs, "$scoreName: $riskScoreInfoJs");
 }
 

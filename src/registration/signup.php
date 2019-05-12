@@ -1,16 +1,6 @@
 <?php
+include "../lib/conn.php"
 if (!empty($_POST) && ($_POST["signup"] == "Register")){ // Signup occurred - There's probably a better way to do this
-    $servername = "localhost";
-    $username = "master";
-    $password = "D1g1talTw1n";
-    $dbname = "digital-twin";
-
-    // Create connection
-    $conn = new mysqli($servername, $username, $password, $dbname);
-    // Check connection
-    if ($conn->connect_error) {
-      die("Connection failed: " . $conn->connect_error);
-    }
 
     $userName = htmlspecialchars($_POST["name"]);
     $userEmail = htmlspecialchars($_POST["email"]);
