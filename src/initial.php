@@ -1,17 +1,16 @@
 <?php
-include "../lib/conn.php";
+include "lib/conn.php";
 
 $sql = "SELECT factor_id as id, factor, data_type as type, question FROM factors";
 $result = $conn->query($sql);
-
+$conn->close();
 $formText = "";
 
 if ($result->num_rows > 0) {
   while($row = $result->fetch_assoc()) {
     //boolean inputs
     if ($row['type'] == 0){
-      $inputText = //"<input type=\"hidden\" name=\"{$row['factor']}\" value=\"0\">
-                    "<input type=\"checkbox\" name=\"{$row['factor']}\" value=\"checked\"><br><br>";
+      $inputText = "<input type=\"checkbox\" name=\"{$row['factor']}\" value=\"checked\"><br><br>";
     }
     // might want to enforce min and max for these inputs
     // integer inputs
