@@ -60,9 +60,9 @@ function dataInputHtml($factorData) {
 }
 
 $sql = "SELECT f.factor_id as id, f.factor as factor, f.question as q, f.min as min, f.max as max, f.def as def, f.data_type as t, r.healthiness as healthiness, r.min as rmin, r.max as rmax 
-        FROM factors f 
-        LEFT JOIN factor_ranges r 
-        ON f.factor_id = r.factor_id";
+      FROM factors f 
+      LEFT JOIN factor_ranges r 
+      ON f.factor_id = r.factor_id";
 $result = $conn->query($sql);
 
 $sliderHtml = "";
@@ -72,7 +72,11 @@ if ($result->num_rows > 0) {
   while($row = $result->fetch_assoc()) {
     //have already put info in for this id so just add a colour range
     if(in_array($row["id"], array_keys($factorInfo))){
-      array_push($factorInfo[$row["id"]]["colRanges"], array("healthiness" => $row["healthiness"], "min" => $row["rmin"], "max" => $row["rmax"]));
+      array_push(
+        $factorInfo[$row["id"]]["colRanges"], 
+        array("healthiness" => $row["healthiness"], 
+          "min" => $row["rmin"], 
+          "max" => $row["rmax"]));
     }
     else{
       $factorInfo[$row["id"]] = array("factor" => $row["factor"],
@@ -115,7 +119,11 @@ if ($result->num_rows > 0) {
   while($row = $result->fetch_assoc()) {
     //have already put info in for this score so just add a factor
     if(in_array($row["id"], array_keys($allScoresInfo))){
-      $allScoresInfo[$row["id"]]["factors"][$row["factorName"]] = array("type" => $row["type"], "infoLink" => $row["info_link"], "min" => $row["min"], "max" => $row["max"], "withinRange" => $row["withinRange"]);
+      $allScoresInfo[$row["id"]]["factors"][$row["factorName"]] = array("type" => $row["type"], 
+                                                                        "infoLink" => $row["info_link"], 
+                                                                        "min" => $row["min"], 
+                                                                        "max" => $row["max"], 
+                                                                        "withinRange" => $row["withinRange"]);
     }
     else{
       $allScoresInfo[$row["id"]] = array( "name" => $row["name"],
@@ -142,7 +150,9 @@ $result = $conn->query($sql);
 if ($result->num_rows > 0) {
   while($row = $result->fetch_assoc()) {
     if(in_array($row["id"], array_keys($allScoresInfo))){
-      $allScoresInfo[$row["id"]]["scores"][$row["score2"]] = array("min" => $row["min"], "max" => $row["max"], "withinRange" => $row["withinRange"]);
+      $allScoresInfo[$row["id"]]["scores"][$row["score2"]] = array("min" => $row["min"], 
+                                                                   "max" => $row["max"], 
+                                                                   "withinRange" => $row["withinRange"]);
     }
   }
 }
