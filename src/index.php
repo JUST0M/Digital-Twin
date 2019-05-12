@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <?php
-include "lib/conn.php"
+include "lib/conn.php";
 
 if (!isset($_POST["UserId"])){
   header('Location: registration/login.php');

@@ -1,5 +1,6 @@
 <?php
-include "../lib/conn.php"
+include "../lib/conn.php";
+# Checks and performs actions if login event occurs
 if (!empty($_POST) && ($_POST["signin"] == "Log in")){ // Signup occurred - There's probably a better way to do this
 
     $userEmail = htmlspecialchars($_POST["your_email"]);
@@ -13,11 +14,13 @@ if (!empty($_POST) && ($_POST["signin"] == "Log in")){ // Signup occurred - Ther
 
     $result = $conn->query($sql);
     
+    # Checks if login is successful
     if ($result->num_rows == 0){
         echo "<script>alert(\"No accounts exist with those credentials. Please try again.\")</script>";
     }
     else{
         echo "<script>alert(\"Congrats on logging in. \")</script>";
+        # Sends UserId to declare signin is successful
         while($row = $result->fetch_assoc()) {
             echo '<form id="sendData" action="../index.php" method="post">
                       <input type="hidden" name="UserId" value="'.$row["UserId"].'">
