@@ -1,6 +1,10 @@
 <!DOCTYPE html>
 <?php
 
+if (!isset($_POST["UserId"])){
+  header('Location: registration/login.php');
+}
+
 $red = "#f00000";
 $yellow = "#f0c800";
 $green = "#00c800";
