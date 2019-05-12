@@ -1,34 +1,34 @@
 <?php
+include "../lib/conn.php";
+# Checks and performs actions if login event occurs
 if (!empty($_POST) && ($_POST["signin"] == "Log in")){ // Signup occurred - There's probably a better way to do this
-    $servername = "localhost";
-    $username = "master";
-    $password = "D1g1talTw1n";
-    $dbname = "digital-twin";
-
-    // Create connection
-    $conn = new mysqli($servername, $username, $password, $dbname);
-    // Check connection
-    if ($conn->connect_error) {
-      die("Connection failed: " . $conn->connect_error);
-    }
 
     $userEmail = htmlspecialchars($_POST["your_email"]);
     $userPassword = htmlspecialchars($_POST["your_pass"]);
 
-    $hashedPassword = hash('sha256', $userPassword); 
+    $hashedPassword = hash('sha256', $userPassword);
 
-    $sql = "SELECT Name, Email, Password 
-            FROM Users 
-            WHERE Password = \"" . $hashedPassword . "\" AND Email = \"" . $userEmail . "\"";
+    $sql = "SELECT user_id, name, email, password
+            FROM users
+            WHERE password = \"" . $hashedPassword . "\" AND email = \"" . $userEmail . "\"";
 
     $result = $conn->query($sql);
-    
+
+    # Checks if login is successful
     if ($result->num_rows == 0){
         echo "<script>alert(\"No accounts exist with those credentials. Please try again.\")</script>";
     }
     else{
         echo "<script>alert(\"Congrats on logging in. \")</script>";
-        echo "<script>window.location.href = \"../index.php\"</script>";
+        # Sends UserId to declare signin is successful
+        while($row = $result->fetch_assoc()) {
+            echo '<form id="sendData" action="../index.php" method="post">
+                      <input type="hidden" name="UserId" value="'.$row["user_id"].'">
+                  </form>';
+            break;
+        }
+        echo "<script> document.getElementById('sendData').submit() </script>";
+
     }
     $conn->close();
 }
@@ -41,7 +41,7 @@ if (!empty($_POST) && ($_POST["signin"] == "Log in")){ // Signup occurred - Ther
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <!-- <title>Sign Up Form by Colorlib</title> -->
     <title>Digital Twin Login</title>
-    
+
     <!-- Font Icon -->
     <link rel="stylesheet" href="fonts/material-icon/css/material-design-iconic-font.min.css">
 
