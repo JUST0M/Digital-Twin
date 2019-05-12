@@ -7,9 +7,9 @@ if (!empty($_POST) && ($_POST["signup"] == "Register")){ // Signup occurred - Th
     $userEmail = htmlspecialchars($_POST["email"]);
     $userPassword = htmlspecialchars($_POST["pass"]);
 
-    $sql = "SELECT Name, Email, Password 
-            FROM Users 
-            WHERE Name = \"" . $userName . "\" AND Email = \"" . $userEmail . "\"";
+    $sql = "SELECT name, email, password
+            FROM users
+            WHERE name = \"" . $userName . "\" AND email = \"" . $userEmail . "\"";
 
     $result = $conn->query($sql);
 
@@ -19,11 +19,11 @@ if (!empty($_POST) && ($_POST["signup"] == "Register")){ // Signup occurred - Th
     }
     else{
         // Do some kind of hashing for the password
-        $hashedPassword = hash('sha256', $userPassword); 
+        $hashedPassword = hash('sha256', $userPassword);
         // Inserts account info database
-        $createUserSql = "INSERT INTO Users 
-                          (Name, Email, Password) 
-                          VALUES 
+        $createUserSql = "INSERT INTO users
+                          (name, email, password)
+                          VALUES
                           (\"" . $userName . "\", \"" . $userEmail . "\", \"" . $hashedPassword . "\")";
         $flag = $conn->query($createUserSql);
 
