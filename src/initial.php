@@ -1,10 +1,6 @@
 <?php
-$servername = "localhost";
-$username = "master";
-$password = "D1g1talTw1n";
-$dbname = "digital-twin";
-// Create connection
-$conn = new mysqli($servername, $username, $password, $dbname);
+include "../lib/conn.php";
+
 $sql = "SELECT factor_id as id, factor, data_type as type, question FROM factors";
 $result = $conn->query($sql);
 

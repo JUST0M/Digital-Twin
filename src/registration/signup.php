@@ -1,17 +1,8 @@
 <?php
+include "../lib/conn.php";
+
+// Checks and performs action if signup event occurred
 if (!empty($_POST) && ($_POST["signup"] == "Register")){ // Signup occurred - There's probably a better way to do this
-    $servername = "localhost";
-    $username = "master";
-    $password = "D1g1talTw1n";
-    $dbname = "digital-twin";
-
-    // Create connection
-    $conn = new mysqli($servername, $username, $password, $dbname);
-    // Check connection
-    if ($conn->connect_error) {
-      die("Connection failed: " . $conn->connect_error);
-    }
-
     $userName = htmlspecialchars($_POST["name"]);
     $userEmail = htmlspecialchars($_POST["email"]);
     $userPassword = htmlspecialchars($_POST["pass"]);
@@ -22,12 +13,14 @@ if (!empty($_POST) && ($_POST["signup"] == "Register")){ // Signup occurred - Th
 
     $result = $conn->query($sql);
 
+    // Checks if account has been made before
     if ($result->num_rows != 0){ // Account was created before
            echo "<script>alert(\"The account with the same credentials has been created before. Please try again.\")</script>";
     }
     else{
         // Do some kind of hashing for the password
         $hashedPassword = hash('sha256', $userPassword); 
+        // Inserts account info database
         $createUserSql = "INSERT INTO Users 
                           (Name, Email, Password) 
                           VALUES 
