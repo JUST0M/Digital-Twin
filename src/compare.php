@@ -189,23 +189,23 @@ $jsText = "<script>
   <title>Digital Twin</title>
 
   <link rel="stylesheet" type="text/css" href="main.css">
-  <link rel="stylesheet" type="text/css" href="modalStyle.css">
+  <link rel="stylesheet" type="text/css" href="modalStyle2.css">
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
   <script>
     var sliderIds = <?php echo $jsSliderIds; ?>;
     var checkboxIds = <?php echo $jsCheckboxIds; ?>;
   </script>
   <?php echo $jsText; ?>
-  <script src="sliders.js"></script>
-  <script src="lib/functions.js"></script>
+  <script src="sliders2.js"></script>
+  <script src="lib/functions2.js"></script>
   <script src="health.js"></script>
 </head>
 <body>
   <div style = "height: 100%; line-height: 2em">
     <table style = "float: left">
       <tr>
-        <th rowspan="9"><canvas id="humanCanvas"></canvas></th>
-        <th rowspan="9"><canvas id="humanCanvas"></canvas></th>
+        <th rowspan="9"><canvas id="humanCanvasLeft"></canvas></th>
+        <th rowspan="9"><canvas id="humanCanvasTwin"></canvas></th>
       </tr>
     </table>
 
@@ -258,6 +258,47 @@ $jsText = "<script>
         </div>
         <div class="modal-body">
           <p id="bodyModalText">Body modal text...</p>
+        </div>
+      </div>
+    </div>
+
+    <div id="heartLeftModal" class="modal" style="display: none" >
+      <!-- Modal content -->
+      <div class="modal-content">
+        <div class="modal-header">
+          <span class="close">&times;</span>
+          <h2>Left Heart Modal</h2>
+        </div>
+        <div class="modal-body">
+          <p id="leftHeartModalText">Heart left modal text...</p>
+        </div>
+      </div>
+    </div>
+
+    <div id="brainLeftModal" class="modal" style="display: none" >
+      <!-- Modal content -->
+      <div class="modal-content">
+        <div class="modal-header">
+          <span class="close">&times;</span>
+          <h2>Left Brain Modal</h2>
+        </div>
+        <div class="modal-body">
+          <p id="leftBrainModalText">Brain left modal text...</p>
+          <p>The thing you most need to improve on is: </p>
+          <a target="_blank" rel="noopener noreferrer" id="improveBrainLeft"></a>
+        </div>
+      </div>
+    </div>
+
+    <div id="bodyLeftModal" class="modal" style="display: none" >
+      <!-- Modal content -->
+      <div class="modal-content">
+        <div class="modal-header">
+          <span class="close">&times;</span>
+          <h2>Left Body Modal</h2>
+        </div>
+        <div class="modal-body">
+          <p id="leftBodyModalText">Body left modal text...</p>
         </div>
       </div>
     </div>
