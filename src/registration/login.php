@@ -17,7 +17,7 @@ if (!empty($_POST) && ($_POST["signin"] == "Log in")){ // Signup occurred - Ther
 
     $hashedPassword = hash('sha256', $userPassword); 
 
-    $sql = "SELECT Name, Email, Password 
+    $sql = "SELECT UserId, Name, Email, Password 
             FROM Users 
             WHERE Password = \"" . $hashedPassword . "\" AND Email = \"" . $userEmail . "\"";
 
@@ -28,7 +28,14 @@ if (!empty($_POST) && ($_POST["signin"] == "Log in")){ // Signup occurred - Ther
     }
     else{
         echo "<script>alert(\"Congrats on logging in. \")</script>";
-        echo "<script>window.location.href = \"../index.php\"</script>";
+        while($row = $result->fetch_assoc()) {
+            echo '<form id="sendData" action="../index.php" method="post">
+                      <input type="hidden" name="UserId" value="'.$row["UserId"].'">
+                  </form>';
+            break;
+        }
+        echo "<script> document.getElementById('sendData').submit() </script>";
+
     }
     $conn->close();
 }
