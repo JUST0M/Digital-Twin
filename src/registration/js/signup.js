@@ -1,5 +1,5 @@
 function submitSignup(){
-	if (!$('#pass').val() || !$('#name').val() || !$('#email').val()){
+	if ($('#pass').val() == "" || $('#username').val() == ""){
 		event.preventDefault();
 		alert('Fields may not be empty');
 	}

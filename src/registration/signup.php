@@ -1,18 +1,13 @@
 <?php
 include "../lib/conn.php";
-
 // Checks and performs action if signup event occurred
 if (!empty($_POST) && ($_POST["signup"] == "Register")){ // Signup occurred - There's probably a better way to do this
-    $userName = htmlspecialchars($_POST["name"]);
-    $userEmail = htmlspecialchars($_POST["email"]);
+    $userUsername = htmlspecialchars($_POST["username"]);
     $userPassword = htmlspecialchars($_POST["pass"]);
-
-    $sql = "SELECT name, email, password
+    $sql = "SELECT username, password
             FROM users
-            WHERE name = \"" . $userName . "\" AND email = \"" . $userEmail . "\"";
-
+            WHERE username = \"" . $userUsername . "\"";
     $result = $conn->query($sql);
-
     // Checks if account has been made before
     if ($result->num_rows != 0){ // Account was created before
            echo "<script>alert(\"The account with the same credentials has been created before. Please try again.\")</script>";
@@ -22,11 +17,10 @@ if (!empty($_POST) && ($_POST["signup"] == "Register")){ // Signup occurred - Th
         $hashedPassword = hash('sha256', $userPassword);
         // Inserts account info database
         $createUserSql = "INSERT INTO users
-                          (name, email, password)
+                          (username, password)
                           VALUES
-                          (\"" . $userName . "\", \"" . $userEmail . "\", \"" . $hashedPassword . "\")";
+                          (\"" . $userUsername . "\", \"" . $hashedPassword . "\")";
         $flag = $conn->query($createUserSql);
-
         if($flag){
             echo "<script>alert(\"Your account has been made. \")</script>";
             echo "<script> window.location.href = \"login.php\"</script>";
@@ -65,12 +59,8 @@ if (!empty($_POST) && ($_POST["signup"] == "Register")){ // Signup occurred - Th
                         <h2 class="form-title">Sign up</h2>
                         <form method="POST" class="register-form" id="register-form" onsubmit="submitSignup()">
                             <div class="form-group">
-                                <label for="name"><i class="zmdi zmdi-account material-icons-name"></i></label>
-                                <input type="text" name="name" id="name" placeholder="Your Name"/>
-                            </div>
-                            <div class="form-group">
-                                <label for="email"><i class="zmdi zmdi-email"></i></label>
-                                <input type="email" name="email" id="email" placeholder="Your Email"/>
+                                <label for="username"><i class="zmdi zmdi-account"></i></label>
+                                <input type="username" name="username" id="username" placeholder="Your Username"/>
                             </div>
                             <div class="form-group">
                                 <label for="pass"><i class="zmdi zmdi-lock"></i></label>
@@ -90,7 +80,7 @@ if (!empty($_POST) && ($_POST["signup"] == "Register")){ // Signup occurred - Th
                         </form>
                     </div>
                     <div class="signup-image">
-                        <<figure><img src="images/signup-image.jpg" alt="sign up image"></figure>
+                        <figure><img src="images/signup-image.jpg" alt="sign up image"></figure>
                         <a href="login.php" class="signup-image-link">I am already member</a>
                     </div>
                 </div>
