@@ -6,7 +6,7 @@ if (!isset($_POST["UserId"])){
 }
 $UserId = $_POST["UserId"];
 // Set up a simple send UserId form to be sent if there's user data in the database
-$mainPage = "index.php";
+$mainPage = "compare.php";
 echo '<form id="toMainPage" action="' . $mainPage . '" method="post">
             <input type="hidden" name="UserId" value="' . $UserId . '">
         </form>';
