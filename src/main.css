@@ -20,17 +20,20 @@ table {
   left: 70%;*/
 
 }
-
+/*
 #table-wrapper {
   position:relative;
 }
+*/
 #table-scroll {
   height:100vh;
   overflow:auto;
 }
+/*
 #table-wrapper table {
   width:100%;
 }
+*/
 
 .slider {
   /*position: absolute;*/

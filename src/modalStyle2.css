@@ -1,3 +1,5 @@
+/* Just like modalStyle.css with some changes to allow for two bodies
+
 /* The Modal (background) */
 .modal {
     display: none; /* Hidden by default */
@@ -6,7 +8,7 @@
     z-index: 1; /* Sit on top */
     right: 0;
     top: 0;
-    width: 32.8%; /* Width is weird b/c otherwise it overlaps the picture highlighting */
+    width: 32.1%; /* Width is weird b/c otherwise it overlaps the picture highlighting */
     height: 100%; /* Full height */
     overflow: auto; /* Enable scroll if needed */
     background-color: #fefefe

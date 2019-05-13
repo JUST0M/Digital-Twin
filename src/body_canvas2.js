@@ -1,3 +1,5 @@
+// modified version of body_canvas.js that allows for two bodies
+
 //Ben: Fetch appropriate elements for picture popups
 var heartModal = document.getElementById('heartModal');
 var heartSpan = document.getElementsByClassName("close")[0];
@@ -21,7 +23,7 @@ var canvasLeft = document.getElementById('humanCanvasLeft');
 
 function resizeCanvas(){
   canvas.width = window.innerWidth / 3; canvasLeft.width = window.innerWidth / 3;
-  canvas.height = window.innerHeight * 0.95; canvasLeft.height = window.innerHeight * 0.95;
+  canvas.height = window.innerHeight * 0.9; canvasLeft.height = window.innerHeight * 0.9;
 }
 
 resizeCanvas()
@@ -49,14 +51,9 @@ function resetTwinImages(){
 
 var bodyLeft, brainLeft, heartLeft;
 function resetLeftImages(){
-  /*
-  bodyLeft = new imageRect(bodyImg, 0, 0, canvasLeft.width*2/3, canvasLeft.height, getLeftBodyColour())
-  brainLeft = new imageRect(brainImg, canvasLeft.width*4/5, 0, canvasLeft.width/5, canvasLeft.height/6, getLeftBrainColour())
-  heartLeft = new imageRect(heartImg, canvasLeft.width*4/5, canvasLeft.height/6, canvasLeft.width/5, canvasLeft.height/6, getLeftHeartColour())
-  */
-  bodyLeft = new imageRect(canvasLeft, bodyImg, 0, 0, canvasLeft.width*2/3, canvasLeft.height, getBodyColour())
-  brainLeft = new imageRect(canvasLeft, brainImg, canvasLeft.width*4/5, 0, canvasLeft.width/5, canvasLeft.height/6, getBrainColour())
-  heartLeft = new imageRect(canvasLeft, heartImg, canvasLeft.width*4/5, canvasLeft.height/6, canvasLeft.width/5, canvasLeft.height/6, getHeartColour())
+  bodyLeft = new imageRect(canvasLeft, bodyImg, 0, 0, canvasLeft.width*2/3, canvasLeft.height, bodyLeftColour)
+  brainLeft = new imageRect(canvasLeft, brainImg, canvasLeft.width*4/5, 0, canvasLeft.width/5, canvasLeft.height/6, brainLeftColour)
+  heartLeft = new imageRect(canvasLeft, heartImg, canvasLeft.width*4/5, canvasLeft.height/6, canvasLeft.width/5, canvasLeft.height/6, heartLeftColour)
 }
 
 resetTwinImages();
