@@ -22,7 +22,7 @@ if (!empty($_POST) && ($_POST["signin"] == "Log in")){ // Signup occurred - Ther
         echo "<script>alert(\"Congrats on logging in. \")</script>";
         # Sends UserId to declare signin is successful
         while($row = $result->fetch_assoc()) {
-            echo '<form id="sendData" action="../index.php" method="post">
+            echo '<form id="sendData" action="../initial.php" method="post">
                       <input type="hidden" name="UserId" value="'.$row["user_id"].'">
                   </form>';
             break;
