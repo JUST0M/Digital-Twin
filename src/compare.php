@@ -39,6 +39,7 @@ include "lib/get_historical_data.php";
       <tr align="center">
         <td>
           <form action="/compare.php" method="post">
+            <input type="hidden" name="UserId" value="<?php echo $userId;?>">
             historical data:
             <select onchange="this.form.submit()" name="date">
               <?php echo $dateOptions ?>
