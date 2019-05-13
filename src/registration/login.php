@@ -3,14 +3,14 @@ include "../lib/conn.php";
 # Checks and performs actions if login event occurs
 if (!empty($_POST) && ($_POST["signin"] == "Log in")){ // Signup occurred - There's probably a better way to do this
 
-    $userEmail = htmlspecialchars($_POST["your_email"]);
+    $userUsername = htmlspecialchars($_POST["your_username"]);
     $userPassword = htmlspecialchars($_POST["your_pass"]);
 
     $hashedPassword = hash('sha256', $userPassword);
 
-    $sql = "SELECT user_id, name, email, password
+    $sql = "SELECT user_id, username, password
             FROM users
-            WHERE password = \"" . $hashedPassword . "\" AND email = \"" . $userEmail . "\"";
+            WHERE password = \"" . $hashedPassword . "\" AND username = \"" . $userUsername . "\"";
 
     $result = $conn->query($sql);
 
@@ -22,7 +22,7 @@ if (!empty($_POST) && ($_POST["signin"] == "Log in")){ // Signup occurred - Ther
         echo "<script>alert(\"Congrats on logging in. \")</script>";
         # Sends UserId to declare signin is successful
         while($row = $result->fetch_assoc()) {
-            echo '<form id="sendData" action="../index.php" method="post">
+            echo '<form id="sendData" action="../initial.php" method="post">
                       <input type="hidden" name="UserId" value="'.$row["user_id"].'">
                   </form>';
             break;
@@ -65,8 +65,8 @@ if (!empty($_POST) && ($_POST["signin"] == "Log in")){ // Signup occurred - Ther
                         <h2 class="form-title">Login</h2>
                         <form method="POST" class="register-form" id="login-form">
                             <div class="form-group">
-                                <label for="your_name"><i class="zmdi zmdi-email"></i></label>
-                                <input type="text" name="your_email" id="your_email" placeholder="Email"/>
+                                <label for="your_name"><i class="zmdi zmdi-account"></i></label>
+                                <input type="text" name="your_username" id="your_username" placeholder="Username"/>
                             </div>
                             <div class="form-group">
                                 <label for="your_pass"><i class="zmdi zmdi-lock"></i></label>
