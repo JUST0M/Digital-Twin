@@ -4,12 +4,12 @@ include "../lib/conn.php";
 // Checks and performs action if signup event occurred
 if (!empty($_POST) && ($_POST["signup"] == "Register")){ // Signup occurred - There's probably a better way to do this
     $userName = htmlspecialchars($_POST["name"]);
-    $userEmail = htmlspecialchars($_POST["email"]);
+    $userUsername = htmlspecialchars($_POST["username"]);
     $userPassword = htmlspecialchars($_POST["pass"]);
 
-    $sql = "SELECT name, email, password
+    $sql = "SELECT name, username, password
             FROM users
-            WHERE name = \"" . $userName . "\" AND email = \"" . $userEmail . "\"";
+            WHERE name = \"" . $userName . "\" AND username = \"" . $userUsername . "\"";
 
     $result = $conn->query($sql);
 
@@ -22,9 +22,9 @@ if (!empty($_POST) && ($_POST["signup"] == "Register")){ // Signup occurred - Th
         $hashedPassword = hash('sha256', $userPassword);
         // Inserts account info database
         $createUserSql = "INSERT INTO users
-                          (name, email, password)
+                          (username, password)
                           VALUES
-                          (\"" . $userName . "\", \"" . $userEmail . "\", \"" . $hashedPassword . "\")";
+                          (\"" . $userUsername . "\", \"" . $hashedPassword . "\")";
         $flag = $conn->query($createUserSql);
 
         if($flag){
@@ -65,12 +65,8 @@ if (!empty($_POST) && ($_POST["signup"] == "Register")){ // Signup occurred - Th
                         <h2 class="form-title">Sign up</h2>
                         <form method="POST" class="register-form" id="register-form" onsubmit="submitSignup()">
                             <div class="form-group">
-                                <label for="name"><i class="zmdi zmdi-account material-icons-name"></i></label>
-                                <input type="text" name="name" id="name" placeholder="Your Name"/>
-                            </div>
-                            <div class="form-group">
-                                <label for="email"><i class="zmdi zmdi-email"></i></label>
-                                <input type="email" name="email" id="email" placeholder="Your Email"/>
+                                <label for="username"><i class="zmdi zmdi-account"></i></label>
+                                <input type="username" name="username" id="username" placeholder="Your Username"/>
                             </div>
                             <div class="form-group">
                                 <label for="pass"><i class="zmdi zmdi-lock"></i></label>
