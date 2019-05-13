@@ -3,7 +3,9 @@
 var imageRect = (function () {
 
     // constructor
-    function imageRect(img, x, y, width, height, fillColour, stroke, strokewidth) {
+    function imageRect(canvas, img, x, y, width, height, fillColour, stroke, strokewidth) {
+        this.canvas = canvas;
+        this.c = canvas.getContext('2d');
         this.x = x;
         this.y = y;
         this.img = img;
@@ -30,27 +32,30 @@ var imageRect = (function () {
     }
     //
     imageRect.prototype.draw = function (stroke) {
-        c.save();
-        c.beginPath();
-        c.strokeStyle = stroke;
-        c.lineWidth = this.strokewidth;
-        c.rect(this.x, this.y, this.width, this.height);
-        c.stroke();
-        c.fillStyle = this.fillColour
-        c.fillRect(this.x, this.y, this.width, this.height);
-        c.drawImage(this.img, this.x, this.y, this.width, this.height)
-        c.restore();
+        this.c.save();
+        this.c.beginPath();
+        this.c.strokeStyle = stroke;
+        this.c.lineWidth = this.strokewidth;
+        this.c.rect(this.x, this.y, this.width, this.height);
+        this.c.stroke();
+        this.c.fillStyle = this.fillColour
+        this.c.fillRect(this.x, this.y, this.width, this.height);
+        this.c.drawImage(this.img, this.x, this.y, this.width, this.height)
+        this.c.restore();
     }
     //
     imageRect.prototype.isPointInside = function (x, y) {
-        return (x >= this.x && x <= this.x + this.width && y >= this.y && y <= this.y + this.height);
+        var rect = this.canvas.getBoundingClientRect();
+        // calculate mouse positions relative to canvas
+        var xRel = x - rect.left; var yRel = y - rect.top;
+        return (xRel >= this.x && xRel <= this.x + this.width && yRel >= this.y && yRel <= this.y + this.height);
     }
 
     return imageRect;
 })();
 
 // Draws an arrow
-function drawArrow(fromx, fromy, tox, toy){
+function drawArrow(c, fromx, fromy, tox, toy){
   c.beginPath()
   var headlen = 10;   // length of head in pixels
   var angle = Math.atan2(toy-fromy,tox-fromx);
