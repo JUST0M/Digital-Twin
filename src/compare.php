@@ -4,10 +4,10 @@
 if(!isset($_POST["UserId"])) header('Location: http://digitwin.co.uk/registration/login.php');
 
 include "lib/conn.php";
-include "lib/gen_sliders.php";
 include "lib/get_score_data.php";
 include "lib/save_digital_twin_data.php";
 include "lib/get_historical_data.php";
+include "lib/gen_sliders.php";
 
 $conn->close();
 ?>

@@ -16,6 +16,7 @@ function dataInputHtml($factorData) {
   $factorName = $factorData["factor"];
   // if boolean datatype then just add a checkbox
   if ($dType == 0) {
+    $default = $factorData["default"] == 1 ? "checked" : "";
     array_push($checkboxIds, "\"$factorName\"");
     $checkboxHtml = "<tr>
                        <td><input type=\"checkbox\" name=\"$factorName\" id=\"checkbox-$factorName\" $default> $question<br/>
@@ -83,7 +84,9 @@ if ($result->num_rows > 0) {
                                       "min" => $row["min"],
                                       "max" => $row["max"],
                                       //"default" => $row["def"],
-                                      "default" => (isset($_POST[$row["factor"]]) && $_POST[$row["factor"]] != null) ? $_POST[$row["factor"]] : $row["def"],
+                                      //"default" => (isset($_POST[$row["factor"]]) && $_POST[$row["factor"]] != null) ? $_POST[$row["factor"]] : $row["def"],
+                                      // set to same as left-hand body to start with
+                                      "default" => (isset($factorValues[$row["id"]]) && $factorValues[$row["id"]] != null) ? $factorValues[$row["id"]] : $row["def"],
                                       "type" => $row["t"],
                                       "colRanges" => array(array("healthiness" => $row["healthiness"], "min" => $row["rmin"], "max" => $row["rmax"])));
 
