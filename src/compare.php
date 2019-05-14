@@ -6,7 +6,10 @@ if(!isset($_POST["UserId"])) header('Location: http://digitwin.co.uk/registratio
 include "lib/conn.php";
 include "lib/gen_sliders.php";
 include "lib/get_score_data.php";
+include "lib/save_digital_twin_data.php";
 include "lib/get_historical_data.php";
+
+$conn->close();
 ?>
 
 
@@ -38,7 +41,7 @@ include "lib/get_historical_data.php";
       </tr>
       <tr align="center">
         <td>
-          <form action="/compare.php" method="post">
+          <form action="compare.php" method="post">
             <input type="hidden" name="UserId" value="<?php echo $userId;?>">
             historical data:
             <select onchange="this.form.submit()" name="date">
@@ -47,9 +50,6 @@ include "lib/get_historical_data.php";
           </form>
         </td>
         <td>
-          <form>
-            <input type="submit" value="Save digital twin data">
-          </form>
         </td>
       </tr>
 
@@ -61,8 +61,13 @@ include "lib/get_historical_data.php";
     <div id="table-scroll">
       <font size="2">
         <table style = "width: 100%">
-          <!-- (Kareem): the sliders have been updated to contain information on nine different measures that are used in the formulation-->
-          <?php echo $sliderHtml; ?>
+          <form action="compare.php" method="post">
+            <!-- (Kareem): the sliders have been updated to contain information on nine different measures that are used in the formulation-->
+            <?php echo $sliderHtml; ?>
+            <input type="hidden" name="UserId" value="<?php echo $userId;?>">
+            <input type="hidden" name="digitwin-form-submit" value="yes">
+            <input type="submit" value="Save digital twin data">
+          </form>
         </table>
       </font>
     </div>

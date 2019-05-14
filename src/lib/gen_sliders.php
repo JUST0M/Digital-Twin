@@ -18,7 +18,7 @@ function dataInputHtml($factorData) {
   if ($dType == 0) {
     array_push($checkboxIds, "\"$factorName\"");
     $checkboxHtml = "<tr>
-                       <td><input type=\"checkbox\" id=\"checkbox-$factorName\" $default> $question<br/>
+                       <td><input type=\"checkbox\" name=\"$factorName\" id=\"checkbox-$factorName\" $default> $question<br/>
                        </td>
                      </tr>";
     return($checkboxHtml);
@@ -44,7 +44,7 @@ function dataInputHtml($factorData) {
     $step = $dType == 1 ? 1 : 0.1;
 
     $sliderHtml = "<tr>
-                     <td>$question: <input type=\"number\" min=\"$min\" max=\"$max\" value=\"$default\" id=\"box-$factorName\"><br/>
+                     <td>$question: <input type=\"number\" min=\"$min\" max=\"$max\" step=\"$step\" value=\"$default\" name=\"$factorName\" id=\"box-$factorName\"><br/>
                        <input type=\"range\" min=\"$min\" max=\"$max\" step=\"$step\" value=\"$default\" class=\"slider\" id=\"slider-$factorName\" style=\"background:linear-gradient($gradientHtml)\">
                      </td>
                    </tr>";

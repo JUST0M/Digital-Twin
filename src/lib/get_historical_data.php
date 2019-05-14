@@ -33,7 +33,7 @@ if ($result->num_rows > 0) {
 else {
   echo "no data for this user and date...";
 }
-$conn->close();
+
 
 // probably need to change $allScoresInfo so it uses factor_id rather than just the name
 // TODO: write this function (could probably go in separate included file)
