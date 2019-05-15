@@ -1,7 +1,6 @@
 <?php
 // Check if someone submitted the form... If this form is submitted, then store the data unless the field was empty; in which case, set it to the default value.
 if (isset($_POST["digitwin-form-submit"])){
-  $userId = $_POST["UserId"];
   $sql = "SELECT factor_id, factor, def, data_type as type FROM factors";
   $result = $conn->query($sql);
   $timestamp = date("Y-m-d");
