@@ -1,6 +1,5 @@
 <?php
 // Get historical data
-$userId = $_POST["UserId"];
 $sql = "SELECT date FROM user_factor_values WHERE user_id=$userId GROUP BY date ORDER BY date DESC";
 $result = $conn->query($sql);
 $dates = array();

@@ -1,5 +1,15 @@
 <?php
 include "../lib/conn.php";
+
+// Initialize the session
+session_start();
+
+// Check if the user is already logged in, if yes then redirect him to welcome page
+if(isset($_SESSION["loggedin"]) && $_SESSION["loggedin"] === true){
+    header("location: ../initial.php");
+    exit;
+}
+
 # Checks and performs actions if login event occurs
 if (!empty($_POST) && ($_POST["signin"] == "Log in")){ // Signup occurred - There's probably a better way to do this
     $userUsername = htmlspecialchars($_POST["your_username"]);
@@ -15,14 +25,15 @@ if (!empty($_POST) && ($_POST["signin"] == "Log in")){ // Signup occurred - Ther
     }
     else{
         echo "<script>alert(\"Congrats on logging in. \")</script>";
-        # Sends UserId to declare signin is successful
-        while($row = $result->fetch_assoc()) {
-            echo '<form id="sendData" action="../initial.php" method="post">
-                      <input type="hidden" name="UserId" value="'.$row["user_id"].'">
-                  </form>';
-            break;
-        }
-        echo "<script> document.getElementById('sendData').submit() </script>";
+
+        // Password is correct, so start a new session
+        $row = $result->fetch_assoc();
+        session_start();
+
+        // Store data in session variables
+        $_SESSION["loggedin"] = true;
+        $_SESSION["id"] = $row["user_id"];
+        header("location: ../initial.php");
     }
     $conn->close();
 }

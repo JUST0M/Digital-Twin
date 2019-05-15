@@ -1,10 +1,16 @@
 <?php
-// Forces a jump to the main page if there's user data in the database
+
 include "lib/conn.php";
-if (!isset($_POST["UserId"])){
-  header('Location: registration/login.php');
+
+// Initialize the session
+session_start();
+
+// Check if the user is logged in, if not then redirect him to login page
+if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true){
+    header("location: registration/login.php");
+    exit;
 }
-$UserId = $_POST["UserId"];
+$UserId = $_SESSION["id"];
 // Set up a simple send UserId form to be sent if there's user data in the database
 $mainPage = "compare.php";
 echo '<form id="toMainPage" action="' . $mainPage . '" method="post">
@@ -13,6 +19,7 @@ echo '<form id="toMainPage" action="' . $mainPage . '" method="post">
 // Check if the user has any data
 $sql = "SELECT user_id, factor_id FROM user_factor_values where user_id = \"" . $UserId . "\"";
 $result = $conn->query($sql);
+// Forces a jump to the main page if there's user data in the database
 // Check if result is empty. If it's not empty, redirect to index.php/compare.php...
 if ($result->num_rows != 0){
   echo "<script> document.getElementById('toMainPage').submit() </script>";
@@ -71,7 +78,6 @@ if ($result->num_rows > 0) {
 
 <!DOCTYPE html>
 <form action="initial.php" method="post">
-  <?php echo '<input type="hidden" name="UserId" value="' . $UserId . '">' ?>
   <input type = "hidden" name = "initial-form-submit" value = "yes">
   <?php echo $formText; ?>
   <input type="submit" value="Submit">

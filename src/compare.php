@@ -1,7 +1,15 @@
 <!DOCTYPE html>
 <?php
 // redirect to login if not logged in
-if(!isset($_POST["UserId"])) header('Location: http://digitwin.co.uk/registration/login.php');
+// Initialize the session
+session_start();
+
+// Check if the user is logged in, if not then redirect him to login page
+if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true){
+    header("location: registration/login.php");
+    exit;
+}
+$userId = $_SESSION["id"];
 
 include "lib/conn.php";
 include "lib/get_score_data.php";
@@ -42,8 +50,7 @@ $conn->close();
       <tr align="center">
         <td>
           <form action="compare.php" method="post">
-            <input type="hidden" name="UserId" value="<?php echo $userId;?>">
-            historical data:
+            <font size="4">historical data:</font>
             <select onchange="this.form.submit()" name="date">
               <?php echo $dateOptions ?>
             </select>
@@ -59,14 +66,16 @@ $conn->close();
 
     <!--<div id="table-wrapper"> -->
     <div id="table-scroll">
-      <font size="2">
+      <font size="5">
         <table style = "width: 100%">
           <form action="compare.php" method="post">
             <!-- (Kareem): the sliders have been updated to contain information on nine different measures that are used in the formulation-->
             <?php echo $sliderHtml; ?>
-            <input type="hidden" name="UserId" value="<?php echo $userId;?>">
             <input type="hidden" name="digitwin-form-submit" value="yes">
             <input type="submit" value="Save digital twin data">
+          </form>
+          <form action="registration/logout.php">
+              <input type="submit" value="Logout" />
           </form>
         </table>
       </font>
